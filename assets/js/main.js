@@ -41,6 +41,76 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeProjectModal();
 });
 
+/* Theme handling: detect system preference, persist selection, and provide a navbar toggle */
+(function () {
+  const STORAGE_KEY = "site-theme";
+  const mqDark = window.matchMedia("(prefers-color-scheme: dark)");
+
+  function setTheme(theme) {
+    if (theme === "light")
+      document.documentElement.classList.add("theme-light");
+    else document.documentElement.classList.remove("theme-light");
+    updateToggleState(theme);
+  }
+
+  function updateToggleState(theme) {
+    const btns = document.querySelectorAll(".theme-toggle");
+    btns.forEach((b) => {
+      b.setAttribute("aria-pressed", theme === "light");
+      b.title = theme === "light" ? "Aydın tema" : "Karanlık tema";
+      b.innerText = theme === "light" ? "🌞" : "🌙";
+    });
+  }
+
+  function detectTheme() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved === "light" || saved === "dark") return saved;
+    return mqDark.matches ? "dark" : "light";
+  }
+
+  function toggleTheme() {
+    const isLight = document.documentElement.classList.contains("theme-light");
+    const next = isLight ? "dark" : "light";
+    localStorage.setItem(STORAGE_KEY, next);
+    setTheme(next);
+  }
+
+  function initTheme() {
+    // inject a compact toggle button into the navbar (if not present)
+    const nav =
+      document.querySelector(".navbar .navbar-brand") ||
+      document.querySelector(".navbar") ||
+      document.body;
+    if (nav && !document.querySelector(".theme-toggle")) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "theme-toggle";
+      btn.setAttribute("aria-label", "Toggle theme");
+      btn.setAttribute("aria-pressed", "false");
+      btn.style.marginLeft = "8px";
+      btn.innerText = "🌙";
+      nav.appendChild(btn);
+    }
+
+    document.addEventListener("click", function (e) {
+      const t = e.target.closest && e.target.closest(".theme-toggle");
+      if (t) toggleTheme();
+    });
+
+    mqDark.addEventListener("change", () => {
+      if (!localStorage.getItem(STORAGE_KEY)) {
+        setTheme(mqDark.matches ? "dark" : "light");
+      }
+    });
+
+    setTheme(detectTheme());
+  }
+
+  if (document.readyState === "loading")
+    document.addEventListener("DOMContentLoaded", initTheme);
+  else initTheme();
+})();
+
 // ============================================
 // 1. MOBILE MENU TOGGLE
 // ============================================
@@ -99,21 +169,20 @@ function initializeMobileMenu() {
 
   // Close menu when clicking outside
   document.addEventListener("click", (e) => {
-  const fallback = document.getElementById("mobileFallbackMenu");
+    const fallback = document.getElementById("mobileFallbackMenu");
 
-  const clickedMenuButton = Array.from(menuButtons).some((b) =>
-    b.contains(e.target)
-  );
+    const clickedMenuButton = Array.from(menuButtons).some((b) =>
+      b.contains(e.target),
+    );
 
-  const clickedNavMenu =
-    navMenuWrapper.contains(e.target) ||
-    (fallback && fallback.contains(e.target));
+    const clickedNavMenu =
+      navMenuWrapper.contains(e.target) ||
+      (fallback && fallback.contains(e.target));
 
-  if (!clickedMenuButton && !clickedNavMenu) {
-    closeMenu();
-  }
-});
-
+    if (!clickedMenuButton && !clickedNavMenu) {
+      closeMenu();
+    }
+  });
 
   // Close menu on ESC
   document.addEventListener("keydown", (e) => {

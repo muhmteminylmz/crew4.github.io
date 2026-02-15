@@ -7,6 +7,35 @@
   --success: #10b981;
   --error: #ef4444;
   --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Theme tokens (dark defaults) */
+  --bg: var(--darker-blue);
+  --surface: var(--dark-blue);
+  --text: #ffffff;
+  --muted: var(--text-gray);
+  --border: rgba(255, 255, 255, 0.05);
+  --navbar-bg: rgba(15, 23, 42, 0.95);
+  --navbar-bg-scrolled: rgba(15, 23, 42, 0.98);
+  --navbar-border: rgba(255, 255, 255, 0.05);
+  --footer-bg: var(--darker-blue);
+
+  /* Additional light palette tokens (for theme-light) */
+  --bg-primary: #f7f9fc;
+  --bg-secondary: #eef2f7;
+  --bg-card: #ffffff;
+
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  --accent-primary: #f97316;
+  --accent-hover: #ea580c;
+
+  --border-light: #e2e8f0;
+  --border-soft: #f1f5f9;
+
+  --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.05);
+  --shadow-hover: 0 20px 50px rgba(15, 23, 42, 0.08);
 }
 
 html {
@@ -14,8 +43,8 @@ html {
 }
 
 body {
-  background-color: var(--dark-blue);
-  color: #ffffff;
+  background-color: var(--bg);
+  color: var(--text);
   font-family:
     "Inter",
     -apple-system,
@@ -71,14 +100,14 @@ body {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(15, 23, 42, 0.95) !important;
+  background: var(--navbar-bg) !important;
   backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--navbar-border);
   transition: var(--transition);
 }
 
 .navbar.scrolled {
-  background: rgba(15, 23, 42, 0.98) !important;
+  background: var(--navbar-bg-scrolled) !important;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
 }
 
@@ -323,6 +352,22 @@ h1.heading {
   position: relative;
   z-index: 1;
   transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Make service item arrow icons use the orange accent (convert purple -> orange)
+   Using CSS filter on the SVG <img> to avoid replacing assets. */
+.service-item-wrap .sevice-icon,
+.service-item-wrap .service-icon-box img,
+.service-icon-box img.sevice-icon {
+  transition: filter 0.25s var(--transition);
+  /* Stronger filter to shift most colors towards the orange accent */
+  filter: invert(36%) sepia(82%) saturate(700%) hue-rotate(-10deg)
+    brightness(0.98) contrast(0.95) !important;
+}
+.service-item-wrap:hover .sevice-icon,
+.service-item-wrap:hover .service-icon-box img,
+.service-item-wrap:hover .service-icon-box img.sevice-icon {
+  filter: none !important;
 }
 
 .service-item-wrap:hover {
@@ -676,8 +721,8 @@ h1.heading {
 
 /* --- FOOTER --- */
 .footer {
-  background: var(--darker-blue);
-  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  background: var(--footer-bg);
+  border-top: 1px solid var(--border);
   margin-top: 50px;
   padding: 60px 0 20px;
   position: relative;
@@ -1524,4 +1569,359 @@ body.nav-open {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Theme toggle button (inserted into navbar via JS) */
+.theme-toggle {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: inherit;
+  padding: 8px 10px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  font-weight: 600;
+}
+.theme-toggle:hover {
+  transform: translateY(-2px);
+}
+
+/* Light theme overrides */
+.theme-light {
+  /* Palette requested by user */
+  --bg: #f8f9fb; /* Soft White - body background */
+  --surface: #ffffff; /* card / surface */
+  --text: #0f172a; /* Primary text (nearly black) */
+  --muted: #475569; /* Secondary text (slate grey) */
+  --primary-orange: #f97316; /* Accent (CTA) - keep same */
+  --primary-orange-hover: #ea580c; /* Hover */
+  --border: #e2e8f0; /* Soft line */
+  --navbar-bg: rgba(255, 255, 255, 0.95);
+  --navbar-bg-scrolled: rgba(255, 255, 255, 0.98);
+  --navbar-border: var(--border);
+  --footer-bg: #ffffff;
+}
+
+/* Light-theme component overrides for improved contrast & aesthetics */
+.theme-light h1.heading {
+  background: linear-gradient(to right, #0f172a, var(--primary-orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.theme-light .hero-subheading {
+  color: var(--muted);
+}
+.theme-light .nav-link {
+  color: var(--text) !important;
+}
+.theme-light .nav-link::after {
+  background: var(--primary-orange);
+}
+.theme-light .nav-link:hover {
+  color: var(--primary-orange) !important;
+}
+.theme-light .navbar-brand img {
+  filter: none;
+}
+
+.theme-light .service-item-wrap {
+  background: rgba(15, 23, 42, 0.03);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  color: var(--text);
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.03);
+}
+.theme-light .service-item-wrap:hover {
+  background: rgba(249, 115, 22, 0.03);
+  border-color: rgba(249, 115, 22, 0.12);
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.04);
+}
+.theme-light .service-item-wrap h4 {
+  color: var(--text);
+}
+.theme-light .service-item-wrap:hover h4 {
+  color: var(--primary-orange);
+}
+
+.theme-light .service-content-display,
+.theme-light .project-modal-content,
+.theme-light .contact-form-container,
+.theme-light .feature-card,
+.theme-light .project-wrap {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.03);
+}
+
+/* Light theme: body & section alternation */
+.theme-light body {
+  background: var(--bg);
+}
+.theme-light .section {
+  background: transparent; /* reset dark gradients */
+}
+.theme-light .section:nth-child(even) {
+  background: #f1f3f6; /* Section alternative */
+}
+
+/* Headline and paragraph colors */
+.theme-light h1.heading {
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  color: var(--text) !important;
+}
+.theme-light .content-text p,
+.theme-light p {
+  color: var(--muted) !important;
+}
+
+/* Primary (filled) CTA for light theme */
+.theme-light .primary-btn-wrap {
+  background: var(--primary-orange) !important;
+  color: #ffffff !important;
+  box-shadow: 0 6px 18px rgba(249, 115, 22, 0.12) !important;
+}
+.theme-light .primary-btn-wrap:hover {
+  background: var(--primary-orange-hover) !important;
+}
+
+/* Outline button utility to match spec */
+.theme-light .outline-btn {
+  background: transparent !important;
+  border: 1px solid #0f172a !important;
+  color: #0f172a !important;
+}
+
+/* Adjust small UI pieces */
+.theme-light .footer-col p,
+.theme-light .footer-links a {
+  color: var(--muted) !important;
+}
+.theme-light .footer-bottom {
+  color: var(--muted) !important;
+}
+
+.theme-light .social-icon {
+  background: transparent !important;
+  border: 1px solid var(--border) !important;
+  color: var(--text) !important;
+}
+
+.theme-light .content-text p,
+.theme-light .footer-col p,
+.theme-light .project-section p {
+  color: var(--muted);
+}
+.theme-light .footer-col h4 {
+  color: var(--text);
+}
+.theme-light .footer-links a {
+  color: var(--muted);
+}
+.theme-light .social-icon {
+  background: rgba(15, 23, 42, 0.03);
+  color: var(--text);
+  border: 1px solid rgba(15, 23, 42, 0.04);
+}
+.theme-light .primary-btn-wrap::before {
+  background: rgba(0, 0, 0, 0.04);
+}
+.theme-light .menu-button {
+  background: rgba(249, 115, 22, 0.06);
+  border: 1px solid rgba(15, 23, 42, 0.06);
+}
+.theme-light .mobile-fallback-inner {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.98),
+    rgba(248, 250, 252, 0.98)
+  );
+  border-left: 1px solid rgba(15, 23, 42, 0.06);
+}
+
+.theme-light .contact-input {
+  background: rgba(255, 255, 255, 0.95) !important;
+  color: var(--text) !important;
+  border: 1px solid rgba(15, 23, 42, 0.06) !important;
+}
+
+.theme-light .project-modal-body,
+.theme-light .project-wrapper {
+  color: var(--text);
+}
+
+.theme-light .footer-bottom {
+  color: var(--muted);
+}
+
+/* --- LIGHT THEME: Additional components per user request --- */
+.theme-light,
+body.light-theme {
+  /* ensure variables are available when body.light-theme is used */
+}
+
+.theme-light body,
+body.light-theme {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+/* Section alternation */
+.theme-light .section-light {
+  background: var(--bg-primary);
+}
+.theme-light .section-alt {
+  background: var(--bg-secondary);
+}
+
+/* Typography */
+.theme-light h1,
+.theme-light h2,
+.theme-light h3,
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3 {
+  color: var(--text-primary);
+}
+.theme-light p,
+body.light-theme p {
+  color: var(--text-secondary);
+}
+
+/* Card */
+.theme-light .card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-light);
+  border-radius: 18px;
+  box-shadow: var(--shadow-soft);
+  transition: 0.3s ease;
+}
+.theme-light .card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+}
+
+/* Buttons */
+.theme-light .button-primary {
+  background: var(--accent-primary);
+  color: #ffffff;
+  border-radius: 12px;
+  padding: 14px 28px;
+  font-weight: 600;
+  transition: 0.25s ease;
+}
+.theme-light .button-primary:hover {
+  background: var(--accent-hover);
+  transform: translateY(-2px);
+}
+.theme-light .button-outline {
+  background: transparent;
+  border: 1px solid var(--text-primary);
+  color: var(--text-primary);
+  border-radius: 12px;
+  padding: 14px 28px;
+}
+.theme-light .button-outline:hover {
+  background: var(--text-primary);
+  color: white;
+}
+
+/* Navbar light variant */
+.navbar.light-theme {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--border-light);
+}
+.navbar.light-theme .nav-link {
+  color: var(--text-secondary) !important;
+}
+.navbar.light-theme .nav-link:hover {
+  color: var(--text-primary) !important;
+}
+
+/* Images */
+.theme-light img {
+  border-radius: 16px;
+}
+.theme-light .card img {
+  aspect-ratio: 4/3;
+  object-fit: cover;
+}
+.theme-light .portfolio-item img {
+  aspect-ratio: 1/1;
+  object-fit: cover;
+}
+
+/* Stats */
+.theme-light .stats-section {
+  background: var(--bg-card);
+}
+.theme-light .stat-number {
+  color: var(--accent-primary);
+  font-weight: 700;
+}
+
+/* Footer: dark footer on light site */
+.theme-light .footer {
+  background: #0f172a;
+  color: white;
+}
+.theme-light .footer a {
+  color: #cbd5e1;
+}
+.theme-light .footer a:hover {
+  color: white;
+}
+
+/* Small touches */
+.theme-light hr {
+  border-color: var(--border-soft);
+}
+.theme-light input,
+.theme-light textarea,
+body.light-theme input,
+body.light-theme textarea {
+  background: white;
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+}
+
+/* Prevent accidental white text on light backgrounds: force readable dark text
+   for common inline and block elements in the light theme. Exclude
+   primary buttons and the footer (which intentionally use white). */
+.theme-light h1,
+.theme-light h2,
+.theme-light h3,
+.theme-light h4,
+.theme-light h5,
+.theme-light h6,
+.theme-light p,
+.theme-light a,
+.theme-light li,
+.theme-light span,
+.theme-light label,
+.theme-light small,
+body.light-theme h1,
+body.light-theme h2,
+body.light-theme h3,
+body.light-theme p,
+body.light-theme a,
+body.light-theme li,
+body.light-theme span,
+body.light-theme label,
+body.light-theme small {
+  color: var(--text) !important;
+}
+
+/* Keep buttons and footer colors intact */
+.theme-light .primary-btn-wrap,
+.theme-light .button-primary,
+.theme-light .footer,
+body.light-theme .primary-btn-wrap,
+body.light-theme .button-primary,
+body.light-theme .footer {
+  /* no change here; these have their own rules */
 }
