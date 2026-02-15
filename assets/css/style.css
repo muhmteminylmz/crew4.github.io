@@ -194,6 +194,7 @@ body {
   position: relative;
   padding: 12px 28px;
   font-weight: 600;
+  gap: 8px;
 }
 
 .primary-btn-wrap::before {
@@ -213,12 +214,23 @@ body {
 }
 
 .primary-btn-wrap:hover {
-  transform: scale(1.05);
-  box-shadow: 0 6px 25px rgba(249, 115, 22, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(249, 115, 22, 0.4);
 }
 
 .primary-btn-wrap:active {
-  transform: scale(0.98);
+  transform: translateY(0);
+  box-shadow: 0 4px 15px rgba(249, 115, 22, 0.3);
+}
+
+.icon-wrapper {
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.primary-btn-wrap:hover .icon-wrapper {
+  transform: translateX(3px);
 }
 
 /* --- HERO BÖLÜMÜ --- */
@@ -272,15 +284,18 @@ h1.heading {
 }
 
 .service-item-wrap {
-  background: rgba(30, 41, 59, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(249, 115, 22, 0.15);
   border-radius: 12px;
   padding: 20px;
   margin-bottom: 15px;
   cursor: pointer;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .service-item-wrap::before {
@@ -293,7 +308,7 @@ h1.heading {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(249, 115, 22, 0.1),
+    rgba(249, 115, 22, 0.15),
     transparent
   );
   transition: var(--transition);
@@ -309,12 +324,18 @@ h1.heading {
   font-size: 1.1rem;
   position: relative;
   z-index: 1;
+  transition: color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .service-item-wrap:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(30, 41, 59, 0.7);
   transform: translateX(8px);
-  border-color: rgba(249, 115, 22, 0.3);
+  border-color: rgba(249, 115, 22, 0.5);
+  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.1);
+}
+
+.service-item-wrap:hover h4 {
+  color: var(--primary-orange);
 }
 
 /* Seçili olan hizmet butonu */
@@ -381,16 +402,17 @@ h1.heading {
 
 /* --- PROJELER --- */
 .project-wrap {
-  background: rgba(30, 41, 59, 0.4);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(249, 115, 22, 0.15);
   border-radius: 16px;
-  padding: 20px;
+  padding: 0;
   margin-bottom: 20px;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   display: block;
   text-decoration: none;
   overflow: hidden;
   position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
 .project-wrap::before {
@@ -410,9 +432,10 @@ h1.heading {
 }
 
 .project-wrap:hover {
-  transform: translateY(-8px);
-  border-color: var(--primary-orange);
-  box-shadow: 0 15px 40px rgba(249, 115, 22, 0.2);
+  background: rgba(30, 41, 59, 0.7);
+  transform: translateY(-12px);
+  border-color: rgba(249, 115, 22, 0.6);
+  box-shadow: 0 16px 40px rgba(249, 115, 22, 0.25);
 }
 
 .project-image-wrap {
@@ -448,14 +471,19 @@ h1.heading {
 
 /* --- NEDEN BİZ (FEATURES) --- */
 .feature-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.6) 0%,
+    rgba(30, 41, 59, 0.4) 100%
+  );
+  border: 1px solid rgba(249, 115, 22, 0.2);
   padding: 40px;
   border-radius: 16px;
   text-align: center;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .feature-card::before {
@@ -467,7 +495,7 @@ h1.heading {
   height: 100%;
   background: radial-gradient(
     circle,
-    rgba(249, 115, 22, 0.1) 0%,
+    rgba(249, 115, 22, 0.15) 0%,
     transparent 70%
   );
   transition: var(--transition);
@@ -475,9 +503,13 @@ h1.heading {
 
 .feature-card:hover {
   transform: translateY(-15px);
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--primary-orange);
-  box-shadow: 0 20px 50px rgba(249, 115, 22, 0.2);
+  background: linear-gradient(
+    135deg,
+    rgba(30, 41, 59, 0.8) 0%,
+    rgba(30, 41, 59, 0.6) 100%
+  );
+  border-color: rgba(249, 115, 22, 0.6);
+  box-shadow: 0 20px 50px rgba(249, 115, 22, 0.25);
 }
 
 .feature-icon {
@@ -507,26 +539,31 @@ h1.heading {
 
 /* --- İLETİŞİM FORM --- */
 .contact-form-container {
-  background: rgba(255, 255, 255, 0.02);
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
   padding: 40px;
   border-radius: 20px;
   margin-top: 30px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(249, 115, 22, 0.3);
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .contact-input {
-  background: rgba(15, 23, 42, 0.6) !important;
+  background: rgba(15, 23, 42, 0.7) !important;
   color: white !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border: 1px solid rgba(249, 115, 22, 0.2) !important;
   margin-bottom: 15px;
   padding: 12px 16px !important;
   border-radius: 8px !important;
   width: 100% !important;
-  transition: var(--transition);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 1rem;
   box-sizing: border-box;
 }
@@ -724,6 +761,82 @@ h1.heading {
   font-size: 0.9rem;
 }
 
+/* --- MOBİL HAMBURGER MENU --- */
+.menu-button {
+  display: none;
+  width: 50px;
+  height: 50px;
+  background: rgba(249, 115, 22, 0.1);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: var(--transition);
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 1000;
+}
+
+.menu-button:hover {
+  background: rgba(249, 115, 22, 0.2);
+  border-color: var(--primary-orange);
+}
+
+.menu-button::before,
+.menu-button::after {
+  content: "";
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--primary-orange);
+  position: absolute;
+  transition: var(--transition);
+  border-radius: 2px;
+}
+
+.menu-button::before {
+  top: 15px;
+}
+
+.menu-button::after {
+  bottom: 15px;
+}
+
+.menu-button .w-icon-nav-menu {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--primary-orange);
+  position: absolute;
+  transition: var(--transition);
+  border-radius: 2px;
+}
+
+.menu-button.active::before {
+  transform: rotate(45deg);
+  top: 22px;
+}
+
+.menu-button.active::after {
+  transform: rotate(-45deg);
+  bottom: 22px;
+}
+
+.menu-button.active .w-icon-nav-menu {
+  opacity: 0;
+}
+
+/* Mobile Navigation Styling */
+.nav-menu-wrapper {
+  transition: var(--transition);
+}
+
+.nav-menu-wrapper.mobile-open {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+}
+
 /* --- RESPONSIVE (MOBİL UYUMLULUK) --- */
 @media (max-width: 991px) {
   .section {
@@ -762,16 +875,85 @@ h1.heading {
     padding: 50px 0;
   }
 
+  .menu-button {
+    display: flex;
+  }
+
   .navbar-wrapper {
     justify-content: space-between;
+    gap: 15px;
   }
+
+  .nav-menu-wrapper {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    right: 0;
+    background: linear-gradient(
+      135deg,
+      rgba(249, 115, 22, 0.05) 0%,
+      rgba(15, 23, 42, 0.95) 100%
+    );
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+    padding: 20px 0;
+    transform: translateX(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    max-height: calc(100vh - 70px);
+    overflow-y: auto;
+    z-index: 999;
+  }
+
+  .nav-menu-wrapper.mobile-open {
+    transform: translateX(0);
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .nav-menu li {
+    margin-bottom: 12px;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 10px 0;
+    color: #e2e8f0 !important;
+  }
+
+  .nav-link:hover {
+    color: var(--primary-orange) !important;
+  }
+
+  .lang-separator {
+    display: block;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 10px 0;
+    border: none;
+  }
+
+  .lang-selector {
+    display: flex;
+    gap: 10px;
+    margin-left: 0;
+    margin-bottom: 15px;
+  }
+
+  .navber {
+    width: 100% !important;
+  }
+
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 30px;
-  }
-  .nav-menu {
-    background: var(--darker-blue);
-    padding: 20px;
   }
   .service-content-display {
     min-height: auto;

@@ -25,21 +25,66 @@ document.addEventListener("DOMContentLoaded", () => {
   // 5. Smooth scroll behavior
   initializeSmoothScroll();
 
-  // 6. Service toggle initialization
+  // 6. Mobile menu initialization
+  initializeMobileMenu();
+
+  // 7. Service toggle initialization
   initializeServiceToggle();
 
-  // 7. Language switcher
+  // 8. Language switcher
   initializeLanguageSwitcher();
 
-  // 8. Projects initialization
+  // 9. Projects initialization
   initializeProjects();
 
-  // 9. Project modal setup
+  // 10. Project modal setup
   initializeProjectModal();
 });
 
 // ============================================
-// 1. NAVBAR SCROLL EFFECT
+// 1. MOBILE MENU TOGGLE
+// ============================================
+function initializeMobileMenu() {
+  const menuButton = document.querySelector(".menu-button");
+  const navMenuWrapper = document.querySelector(".nav-menu-wrapper");
+  const navLinks = document.querySelectorAll(".nav-link");
+
+  if (!menuButton || !navMenuWrapper) return;
+
+  // Toggle menu
+  menuButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+    menuButton.classList.toggle("active");
+    navMenuWrapper.classList.toggle("mobile-open");
+  });
+
+  // Close menu when clicking a link
+  navLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      menuButton.classList.remove("active");
+      navMenuWrapper.classList.remove("mobile-open");
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!menuButton.contains(e.target) && !navMenuWrapper.contains(e.target)) {
+      menuButton.classList.remove("active");
+      navMenuWrapper.classList.remove("mobile-open");
+    }
+  });
+
+  // Close menu on window resize
+  window.addEventListener("resize", () => {
+    if (window.innerWidth > 767) {
+      menuButton.classList.remove("active");
+      navMenuWrapper.classList.remove("mobile-open");
+    }
+  });
+}
+
+// ============================================
+// 2. NAVBAR SCROLL EFFECT
 // ============================================
 function initializeNavbarScroll() {
   const navbar = document.querySelector(".navbar");
@@ -54,7 +99,7 @@ function initializeNavbarScroll() {
 }
 
 // ============================================
-// 2. SMOOTH SCROLL BEHAVIOR
+// 3. SMOOTH SCROLL BEHAVIOR
 // ============================================
 function initializeSmoothScroll() {
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
@@ -76,7 +121,7 @@ function initializeSmoothScroll() {
 }
 
 // ============================================
-// 3. SERVICE TOGGLE WITH ENHANCED LOGIC
+// 4. SERVICE TOGGLE WITH ENHANCED LOGIC
 // ============================================
 function initializeServiceToggle() {
   // Optional: Add click event listeners programmatically if needed
@@ -111,7 +156,7 @@ function toggleService(serviceId, element) {
 }
 
 // ============================================
-// 4. LANGUAGE SWITCHER
+// 5. LANGUAGE SWITCHER
 // ============================================
 function initializeLanguageSwitcher() {
   const langButtons = document.querySelectorAll(".lang-btn");
@@ -130,7 +175,7 @@ function initializeLanguageSwitcher() {
 }
 
 // ============================================
-// 5. PROJECTS INITIALIZATION
+// 6. PROJECTS INITIALIZATION
 // ============================================
 function initializeProjects() {
   const projectsContainer = document.getElementById("projectsContainer");
@@ -169,7 +214,7 @@ function initializeProjects() {
 }
 
 // ============================================
-// 6. PROJECT MODAL
+// 7. PROJECT MODAL
 // ============================================
 function initializeProjectModal() {
   const modal = document.getElementById("projectModal");
