@@ -45,45 +45,75 @@ document.addEventListener("DOMContentLoaded", () => {
 // 1. MOBILE MENU TOGGLE
 // ============================================
 function initializeMobileMenu() {
-  const menuButton = document.querySelector(".menu-button");
+  // Support multiple menu buttons if present
+  const menuButtons = document.querySelectorAll(".menu-button");
   const navMenuWrapper = document.querySelector(".nav-menu-wrapper");
   const navLinks = document.querySelectorAll(".nav-link");
 
-  if (!menuButton || !navMenuWrapper) return;
+  if (!menuButtons.length || !navMenuWrapper) return;
 
-  // Toggle menu
-  menuButton.addEventListener("click", (e) => {
-    e.stopPropagation();
-    menuButton.classList.toggle("active");
-    navMenuWrapper.classList.toggle("mobile-open");
-    // Also toggle common Webflow open class to stay compatible
-    navMenuWrapper.classList.toggle("w--open");
-    // toggle on parent nav if exists
+  function openMenu(btn) {
+    btn.classList.add("active");
+    navMenuWrapper.classList.add("mobile-open");
+    navMenuWrapper.classList.add("w--open");
     const parentNav = navMenuWrapper.closest(".w-nav");
-    if (parentNav) parentNav.classList.toggle("w--nav-open");
+    if (parentNav) parentNav.classList.add("w--nav-open");
+    document.body.classList.add("nav-open");
+  }
+
+  function closeMenu() {
+    menuButtons.forEach((b) => b.classList.remove("active"));
+    navMenuWrapper.classList.remove("mobile-open");
+    navMenuWrapper.classList.remove("w--open");
+    const parentNav = navMenuWrapper.closest(".w-nav");
+    if (parentNav) parentNav.classList.remove("w--nav-open");
+    document.body.classList.remove("nav-open");
+  }
+
+  // Add click / pointer handlers
+  menuButtons.forEach((menuButton) => {
+    menuButton.addEventListener("click", (e) => {
+      e.stopPropagation();
+      if (menuButton.classList.contains("active")) {
+        closeMenu();
+      } else {
+        openMenu(menuButton);
+      }
+    });
+    // also support touchstart for instant response
+    menuButton.addEventListener("touchstart", (e) => {
+      e.stopPropagation();
+      if (menuButton.classList.contains("active")) closeMenu();
+      else openMenu(menuButton);
+    });
   });
 
   // Close menu when clicking a link
   navLinks.forEach((link) => {
     link.addEventListener("click", () => {
-      menuButton.classList.remove("active");
-      navMenuWrapper.classList.remove("mobile-open");
+      closeMenu();
     });
   });
 
   // Close menu when clicking outside
   document.addEventListener("click", (e) => {
-    if (!menuButton.contains(e.target) && !navMenuWrapper.contains(e.target)) {
-      menuButton.classList.remove("active");
-      navMenuWrapper.classList.remove("mobile-open");
+    if (
+      !Array.from(menuButtons).some((b) => b.contains(e.target)) &&
+      !navMenuWrapper.contains(e.target)
+    ) {
+      closeMenu();
     }
   });
 
-  // Close menu on window resize
+  // Close menu on ESC
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeMenu();
+  });
+
+  // Close menu on window resize (switch to desktop)
   window.addEventListener("resize", () => {
     if (window.innerWidth > 767) {
-      menuButton.classList.remove("active");
-      navMenuWrapper.classList.remove("mobile-open");
+      closeMenu();
     }
   });
 }
