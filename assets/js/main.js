@@ -251,8 +251,13 @@ function ensureFallbackMenu() {
   langButtons.forEach((b) => {
     const btn = document.createElement("button");
     btn.className = "lang-btn fallback-lang-btn";
-    btn.setAttribute("data-lang", b.getAttribute("data-lang") || "tr");
+    const dataLang = b.getAttribute("data-lang") || "tr";
+    btn.setAttribute("data-lang", dataLang);
     btn.textContent = b.textContent.trim();
+    // Mark active if it matches current language
+    if (dataLang === (localStorage.getItem("language") || "tr")) {
+      btn.classList.add("active");
+    }
     langWrapper.appendChild(btn);
   });
 
@@ -291,6 +296,43 @@ function ensureFallbackMenu() {
       if (originalBtn) originalBtn.click();
     });
   });
+
+  // Helper to sync fallback texts and active state with the main nav and language
+  function syncFallback() {
+    const currentLang = localStorage.getItem("language") || "tr";
+    // sync active state for fallback lang buttons
+    fallback.querySelectorAll(".fallback-lang-btn").forEach((b) => {
+      if (b.getAttribute("data-lang") === currentLang)
+        b.classList.add("active");
+      else b.classList.remove("active");
+    });
+
+    // sync nav link texts from the main nav (use current DOM values)
+    const primaryLinks = navMenuWrapper.querySelectorAll("a.nav-link");
+    const fallbackLinks = fallback.querySelectorAll(
+      ".mobile-fallback-links-list .fallback-link",
+    );
+    if (primaryLinks.length && fallbackLinks.length) {
+      if (primaryLinks.length === fallbackLinks.length) {
+        primaryLinks.forEach((a, i) => {
+          fallbackLinks[i].textContent = a.textContent.trim();
+        });
+      } else {
+        // match by href if counts differ
+        fallbackLinks.forEach((fb) => {
+          const href = fb.getAttribute("href");
+          const match = Array.from(primaryLinks).find(
+            (a) => a.getAttribute("href") === href,
+          );
+          if (match) fb.textContent = match.textContent.trim();
+        });
+      }
+    }
+  }
+
+  // Initial sync and keep in sync when translations change
+  syncFallback();
+  document.addEventListener("languageChanged", () => syncFallback());
 
   function closeMenuFallback() {
     document

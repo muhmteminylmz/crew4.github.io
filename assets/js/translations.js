@@ -302,6 +302,44 @@ function updatePageLanguage(lang) {
     document.title =
       "Crew4 - Dijital Reklam & Tasarım Ajansı | Web Tasarım SEO Hizmetleri";
   }
+
+  // Update active state for language buttons (desktop and fallback)
+  document.querySelectorAll(".lang-btn, .fallback-lang-btn").forEach((btn) => {
+    const bLang = btn.getAttribute("data-lang");
+    if (bLang === lang) btn.classList.add("active");
+    else btn.classList.remove("active");
+  });
+
+  // If mobile fallback menu exists, sync its nav link texts with the primary nav
+  const fallback = document.getElementById("mobileFallbackMenu");
+  const navMenuWrapper = document.querySelector(".nav-menu-wrapper");
+  if (fallback && navMenuWrapper) {
+    const primaryLinks = navMenuWrapper.querySelectorAll("a.nav-link");
+    const fallbackLinks = fallback.querySelectorAll(
+      ".mobile-fallback-links-list .fallback-link",
+    );
+    // Match by index/href where possible
+    if (primaryLinks.length && fallbackLinks.length) {
+      // If counts mismatch, try matching by href
+      if (primaryLinks.length === fallbackLinks.length) {
+        primaryLinks.forEach((a, i) => {
+          fallbackLinks[i].textContent = a.textContent.trim();
+        });
+      } else {
+        // Fallback: match by href
+        fallbackLinks.forEach((fb) => {
+          const href = fb.getAttribute("href");
+          const match = Array.from(primaryLinks).find(
+            (a) => a.getAttribute("href") === href,
+          );
+          if (match) fb.textContent = match.textContent.trim();
+        });
+      }
+    }
+  }
+
+  // Dispatch an event in case other modules want to react
+  document.dispatchEvent(new CustomEvent("languageChanged", { detail: lang }));
 }
 
 // Initialize language on page load

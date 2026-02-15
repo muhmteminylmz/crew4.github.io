@@ -364,10 +364,22 @@ h1.heading {
   filter: invert(36%) sepia(82%) saturate(700%) hue-rotate(-10deg)
     brightness(0.98) contrast(0.95) !important;
 }
+
+/* Force orange-accent filter for icons in all interaction states so they
+   never revert to purple. Using the same transform as the base rule. */
 .service-item-wrap:hover .sevice-icon,
 .service-item-wrap:hover .service-icon-box img,
-.service-item-wrap:hover .service-icon-box img.sevice-icon {
-  filter: none !important;
+.service-item-wrap:hover .service-icon-box img.sevice-icon,
+.service-item-wrap:active .sevice-icon,
+.service-item-wrap:active .service-icon-box img,
+.service-item-wrap:focus-within .sevice-icon,
+.service-item-wrap:focus-within .service-icon-box img,
+.service-item-wrap.active-service .sevice-icon,
+.service-item-wrap.active-service .service-icon-box img,
+.service-item-wrap .sevice-icon:active,
+.service-item-wrap .service-icon-box img:active {
+  filter: invert(36%) sepia(82%) saturate(700%) hue-rotate(-10deg)
+    brightness(0.98) contrast(0.95) !important;
 }
 
 .service-item-wrap:hover {
