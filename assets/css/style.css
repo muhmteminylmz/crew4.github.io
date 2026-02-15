@@ -992,6 +992,48 @@ h1.heading {
   }
 }
 
+/* --- HERO / BANNER MOBILE FIXES --- */
+@media (max-width: 767px) {
+  .banner-image-wrap {
+    width: 100% !important;
+    margin-top: 20px;
+    order: 2;
+    position: relative !important;
+    transform: none !important;
+  }
+
+  .list.banner {
+    display: block;
+    width: 100%;
+  }
+
+  .banner-list-flex {
+    width: 100%;
+    gap: 12px;
+  }
+
+  .banner-list-text {
+    max-width: 100% !important;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    hyphens: auto;
+  }
+
+  /* Ensure parent container stacks content vertically on mobile */
+  .w-layout-blockcontainer.container.w-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .animation-wrap,
+  .heading,
+  .hero-subheading {
+    word-break: break-word;
+  }
+}
+
 @media (max-width: 480px) {
   .section {
     padding: 40px 0;

@@ -56,6 +56,11 @@ function initializeMobileMenu() {
     e.stopPropagation();
     menuButton.classList.toggle("active");
     navMenuWrapper.classList.toggle("mobile-open");
+    // Also toggle common Webflow open class to stay compatible
+    navMenuWrapper.classList.toggle("w--open");
+    // toggle on parent nav if exists
+    const parentNav = navMenuWrapper.closest(".w-nav");
+    if (parentNav) parentNav.classList.toggle("w--nav-open");
   });
 
   // Close menu when clicking a link
