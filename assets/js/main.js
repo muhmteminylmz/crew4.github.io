@@ -54,20 +54,22 @@ function initializeMobileMenu() {
 
   function openMenu(btn) {
     btn.classList.add("active");
-    navMenuWrapper.classList.add("mobile-open");
-    navMenuWrapper.classList.add("w--open");
     const parentNav = navMenuWrapper.closest(".w-nav");
     if (parentNav) parentNav.classList.add("w--nav-open");
     document.body.classList.add("nav-open");
+    // Ensure fallback cloned menu exists and show it (fixes Webflow white-box issues)
+    ensureFallbackMenu();
+    const fallback = document.getElementById("mobileFallbackMenu");
+    if (fallback) fallback.classList.add("open");
   }
 
   function closeMenu() {
     menuButtons.forEach((b) => b.classList.remove("active"));
-    navMenuWrapper.classList.remove("mobile-open");
-    navMenuWrapper.classList.remove("w--open");
     const parentNav = navMenuWrapper.closest(".w-nav");
     if (parentNav) parentNav.classList.remove("w--nav-open");
     document.body.classList.remove("nav-open");
+    const fallback = document.getElementById("mobileFallbackMenu");
+    if (fallback) fallback.classList.remove("open");
   }
 
   // Add click / pointer handlers
@@ -97,13 +99,21 @@ function initializeMobileMenu() {
 
   // Close menu when clicking outside
   document.addEventListener("click", (e) => {
-    if (
-      !Array.from(menuButtons).some((b) => b.contains(e.target)) &&
-      !navMenuWrapper.contains(e.target)
-    ) {
-      closeMenu();
-    }
-  });
+  const fallback = document.getElementById("mobileFallbackMenu");
+
+  const clickedMenuButton = Array.from(menuButtons).some((b) =>
+    b.contains(e.target)
+  );
+
+  const clickedNavMenu =
+    navMenuWrapper.contains(e.target) ||
+    (fallback && fallback.contains(e.target));
+
+  if (!clickedMenuButton && !clickedNavMenu) {
+    closeMenu();
+  }
+});
+
 
   // Close menu on ESC
   document.addEventListener("keydown", (e) => {
@@ -112,10 +122,114 @@ function initializeMobileMenu() {
 
   // Close menu on window resize (switch to desktop)
   window.addEventListener("resize", () => {
-    if (window.innerWidth > 767) {
+    if (window.innerWidth > 991) {
       closeMenu();
     }
   });
+}
+
+// ==========================
+// MOBILE FALLBACK MENU
+// Creates a body-level cloned menu to avoid Webflow container styling
+// ==========================
+function ensureFallbackMenu() {
+  if (document.getElementById("mobileFallbackMenu")) return;
+
+  const navMenuWrapper = document.querySelector(".nav-menu-wrapper");
+  if (!navMenuWrapper) return;
+
+  const fallback = document.createElement("div");
+  fallback.id = "mobileFallbackMenu";
+  fallback.className = "mobile-fallback-menu";
+
+  // Build a clean menu structure to avoid copying Webflow container styles
+  const inner = document.createElement("div");
+  inner.className = "mobile-fallback-inner";
+
+  const linksList = document.createElement("ul");
+  linksList.className = "mobile-fallback-links-list";
+
+  // collect primary nav links
+  const navLinks = navMenuWrapper.querySelectorAll("a.nav-link");
+  navLinks.forEach((a) => {
+    const li = document.createElement("li");
+    li.className = "mobile-fallback-item";
+    const clone = document.createElement("a");
+    clone.href = a.getAttribute("href") || "#";
+    clone.className = "nav-link fallback-link";
+    clone.textContent = a.textContent.trim();
+    li.appendChild(clone);
+    linksList.appendChild(li);
+  });
+
+  inner.appendChild(linksList);
+
+  // actions area (primary button + language)
+  const actions = document.createElement("div");
+  actions.className = "mobile-fallback-actions";
+
+  const primary = navMenuWrapper.querySelector(".primary-btn-wrap");
+  if (primary) {
+    const primaryClone = primary.cloneNode(true);
+    primaryClone.classList.add("fallback-primary-btn");
+    actions.appendChild(primaryClone);
+  }
+
+  // clone language buttons
+  const langWrapper = document.createElement("div");
+  langWrapper.className = "mobile-fallback-lang";
+  const langButtons = document.querySelectorAll(".lang-btn");
+  langButtons.forEach((b) => {
+    const btn = document.createElement("button");
+    btn.className = "lang-btn fallback-lang-btn";
+    btn.setAttribute("data-lang", b.getAttribute("data-lang") || "tr");
+    btn.textContent = b.textContent.trim();
+    langWrapper.appendChild(btn);
+  });
+
+  actions.appendChild(langWrapper);
+  inner.appendChild(actions);
+
+  fallback.appendChild(inner);
+  document.body.appendChild(fallback);
+
+  // Close when clicking overlay background
+  fallback.addEventListener("click", (e) => {
+    if (e.target === fallback) {
+      closeMenuFallback();
+    }
+  });
+
+  // Wire up links inside fallback to close menu and navigate
+  fallback.querySelectorAll("a").forEach((a) => {
+    a.addEventListener("click", (e) => {
+      // allow normal anchor behaviour (scroll) then close
+      setTimeout(() => {
+        closeMenuFallback();
+      }, 50);
+    });
+  });
+
+  // Wire language buttons in fallback menu
+  fallback.querySelectorAll(".fallback-lang-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const lang = btn.getAttribute("data-lang");
+      // Trigger the language change via the original buttons
+      const originalBtn = document.querySelector(
+        `.lang-btn[data-lang="${lang}"]`,
+      );
+      if (originalBtn) originalBtn.click();
+    });
+  });
+
+  function closeMenuFallback() {
+    document
+      .querySelectorAll(".menu-button")
+      .forEach((b) => b.classList.remove("active"));
+    fallback.classList.remove("open");
+    document.body.classList.remove("nav-open");
+  }
 }
 
 // ============================================

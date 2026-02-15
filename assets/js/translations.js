@@ -7,7 +7,7 @@ const translations = {
       services: "Hizmetler",
       projects: "Projeler",
       contact: "İletişim",
-      contactBtn: "İletişime Geç",
+      contactBtn: "Bizimle İletişime Geçin",
     },
     // Hero Section
     hero: {
@@ -21,7 +21,7 @@ const translations = {
     // Services Section
     services: {
       title: "Hizmetlerimiz",
-      contactBtn: "İletişime Geç",
+      contactBtn: "Bizimle İletişime Geçin",
       default: {
         title: "Bütüncül Dijital Çözümler",
         description:
@@ -124,7 +124,7 @@ const translations = {
       services: "Services",
       projects: "Projects",
       contact: "Contact",
-      contactBtn: "Get in Touch",
+      contactBtn: "Get In Touch With Us",
     },
     // Hero Section
     hero: {
@@ -146,7 +146,7 @@ const translations = {
     // Services Section
     services: {
       title: "Our Services",
-      contactBtn: "Get in Touch",
+      contactBtn: "Get In Touch With Us",
       default: {
         title: "Comprehensive Digital Solutions",
         description:
