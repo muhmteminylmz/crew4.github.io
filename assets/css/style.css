@@ -97,8 +97,11 @@ body {
 
 /* --- NAVBAR (Glassmorphism) --- */
 .navbar {
-  position: sticky;
+  position: fixed;
   top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   z-index: 100;
   background: var(--navbar-bg) !important;
   backdrop-filter: blur(10px);
@@ -106,9 +109,18 @@ body {
   transition: var(--transition);
 }
 
+.page-wrapper {
+  padding-top: 86px;
+}
+
 .navbar.scrolled {
   background: var(--navbar-bg-scrolled) !important;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+}
+
+.navbar.scroll-visible {
+  transform: translateY(0) !important;
+  opacity: 1 !important;
 }
 
 /* Navbar Brand Styling */
@@ -159,6 +171,29 @@ body {
 
 .nav-link:hover {
   color: var(--primary-orange) !important;
+}
+
+/* Centered desktop navbar layout for non-home pages */
+.subpage-layout .navbar-wrapper {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+}
+
+.subpage-layout .navber-wrap {
+  justify-self: start;
+}
+
+.subpage-layout .nav-menu-wrapper {
+  justify-self: center;
+}
+
+.subpage-layout .nav-menu {
+  justify-content: center;
+}
+
+.subpage-layout .menu-button {
+  justify-self: end;
 }
 
 /* --- LANGUAGE SWITCHER --- */
@@ -572,6 +607,123 @@ h1.heading {
   gap: 20px;
 }
 
+.blog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 22px;
+}
+
+.blog-card {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(249, 115, 22, 0.15);
+  border-radius: 16px;
+  padding: 22px;
+  transition: var(--transition);
+}
+
+.blog-card:hover {
+  transform: translateY(-8px);
+  border-color: rgba(249, 115, 22, 0.55);
+  box-shadow: 0 14px 36px rgba(249, 115, 22, 0.18);
+}
+
+.blog-card h3 {
+  color: #fff;
+  margin: 0 0 10px;
+  font-size: 1.1rem;
+}
+
+.blog-meta {
+  color: rgba(148, 163, 184, 0.95);
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  margin: 0 0 10px;
+}
+
+.blog-card p {
+  color: var(--text-gray);
+  margin: 0 0 14px;
+}
+
+.blog-card .blog-full-content {
+  display: none;
+}
+
+.blog-card.is-featured .blog-excerpt {
+  display: none;
+}
+
+.blog-card.is-featured .blog-full-content {
+  display: block;
+}
+
+.blog-card.is-featured .blog-link {
+  display: none;
+}
+
+.blog-card a {
+  color: var(--primary-orange);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.blog-focus-layout.focus-mode {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(240px, 0.9fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.blog-focus-layout.focus-mode .blog-main .blog-grid {
+  grid-template-columns: 1fr;
+}
+
+.blog-side {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 95px;
+}
+
+.blog-card.is-featured {
+  padding: 26px;
+}
+
+.blog-card.is-featured h3 {
+  font-size: 1.35rem;
+}
+
+.blog-card.is-compact {
+  padding: 14px;
+}
+
+.blog-card.is-compact h3 {
+  font-size: 0.98rem;
+  margin-bottom: 6px;
+}
+
+.blog-card.is-compact p {
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.blog-card.is-compact .blog-meta {
+  font-size: 0.76rem;
+  margin-bottom: 6px;
+}
+
+@media (max-width: 991px) {
+  .blog-focus-layout.focus-mode {
+    grid-template-columns: 1fr;
+  }
+
+  .blog-side {
+    position: static;
+  }
+}
+
 /* --- NEDEN BİZ (FEATURES) --- */
 .feature-card {
   background: linear-gradient(
@@ -692,6 +844,45 @@ h1.heading {
 
 .contact-input.success {
   border-color: var(--success) !important;
+}
+
+/* Message textarea scrollbar polish (Windows-friendly) */
+textarea.contact-input {
+  resize: none;
+  min-height: 120px;
+  overflow-y: auto;
+  transition:
+    height 0.24s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(249, 115, 22, 0.75) rgba(255, 255, 255, 0.08);
+}
+
+textarea.contact-input::-webkit-scrollbar {
+  width: 10px;
+}
+
+textarea.contact-input::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+}
+
+textarea.contact-input::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #fb923c 0%, #f97316 100%);
+  border-radius: 10px;
+  border: 2px solid rgba(15, 23, 42, 0.35);
+}
+
+textarea.contact-input::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #f97316 0%, #ea580c 100%);
+}
+
+textarea.contact-input::-webkit-scrollbar-button {
+  display: none;
+  width: 0;
+  height: 0;
 }
 
 .form-error-message {
@@ -2024,6 +2215,21 @@ body.light-theme textarea {
   border-radius: 10px;
 }
 
+.theme-light textarea.contact-input,
+body.light-theme textarea.contact-input {
+  scrollbar-color: rgba(249, 115, 22, 0.8) #e5e7eb;
+}
+
+.theme-light textarea.contact-input::-webkit-scrollbar-track,
+body.light-theme textarea.contact-input::-webkit-scrollbar-track {
+  background: #e5e7eb;
+}
+
+.theme-light textarea.contact-input::-webkit-scrollbar-thumb,
+body.light-theme textarea.contact-input::-webkit-scrollbar-thumb {
+  border: 2px solid #e5e7eb;
+}
+
 /* Prevent accidental white text on light backgrounds: force readable dark text
    for common inline and block elements in the light theme. Exclude
    primary buttons and the footer (which intentionally use white). */
@@ -2111,4 +2317,18 @@ body.light-theme small {
 
 .theme-light .lang-separator {
   color: rgba(15, 23, 42, 0.35) !important;
+}
+
+.theme-light .blog-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
+}
+
+.theme-light .blog-card h3 {
+  color: var(--text-primary) !important;
+}
+
+.theme-light .blog-card p {
+  color: var(--text-secondary) !important;
 }

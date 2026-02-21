@@ -4,6 +4,7 @@
       "home": "Anasayfa",
       "services": "Hizmetler",
       "projects": "Projeler",
+      "blog": "Blog",
       "contact": "İletişim",
       "contactBtn": "Bizimle İletişime Geçin"
     },
@@ -58,6 +59,31 @@
       "title": "Son İşlerimiz",
       "viewProject": "Projeyi Gör"
     },
+    "blog": {
+      "label": "Blog",
+      "title": "İçerikler & İpuçları",
+      "subtitle": "Dijital pazarlama, tasarım ve büyüme odaklı pratik içerikler.",
+      "allPosts": "Tüm Yazılar",
+      "readMore": "Devamını Oku",
+      "card1": {
+        "meta": "Crew4 Ekibi • 21 Şubat 2026",
+        "title": "2026'da Dönüşüm Odaklı Landing Page Tasarımı",
+        "excerpt": "Kullanıcı akışı, içerik hiyerarşisi ve CTA konumlandırmasıyla daha fazla dönüşüm elde edin.",
+        "content": "Landing page performansı yalnızca tasarıma değil, kullanıcı niyetine göre şekillenen bir akışa bağlıdır. 2026 yaklaşımında üst bölümde net değer önerisi, orta bölümde güven öğeleri ve alt bölümde güçlü CTA sıralaması dönüşüm oranlarını belirgin biçimde yükseltir. Mobilde hız, sade form alanları ve gereksiz adımları azaltmak en kritik noktadır. A/B testleriyle başlık, CTA metni ve görsel hiyerarşi düzenli optimize edilerek sürdürülebilir sonuç alınır."
+      },
+      "card2": {
+        "meta": "Crew4 Sosyal Medya Ekibi • 14 Şubat 2026",
+        "title": "Sosyal Medya Reklamlarında Yaratıcı Test Stratejisi",
+        "excerpt": "Doğru kreatif kombinasyonlarını test ederek bütçeyi verimli kullanmanın yöntemleri.",
+        "content": "Kreatif testlerde en iyi yöntem tek değişken yaklaşımıdır: aynı hedef kitlede yalnızca bir öğeyi değiştirerek sonuç okumak gerekir. İlk aşamada görsel, ikinci aşamada başlık, ardından CTA kombinasyonları test edildiğinde bütçe daha verimli kullanılır. Erken dönemde CTR, ilerleyen dönemde dönüşüm maliyeti ve satın alma oranı üzerinden karar vermek yanlış eleme riskini azaltır. Kazanan kreatifler düzenli yenilenmezse performans hızlı düşeceği için rotasyon planı şarttır."
+      },
+      "card3": {
+        "meta": "Crew4 SEO Ekibi • 8 Şubat 2026",
+        "title": "SEO'da Teknik Temel: Hız, Yapı ve İçerik",
+        "excerpt": "Arama görünürlüğünü artırmak için teknik SEO ve içerik optimizasyonunu birlikte ele alın.",
+        "content": "Teknik SEO'da ilk eşik Core Web Vitals değerleridir; özellikle LCP ve CLS sorunları çözülmeden içerik performansı sınırlı kalır. Site mimarisi, iç bağlantı yapısı ve temiz başlık hiyerarşisi arama motorlarının sayfaları doğru anlamasını sağlar. İçerikte arama niyetiyle uyumlu alt başlıklar, açıklayıcı metinler ve semantik zenginlik sıralamayı güçlendirir. Teknik temel ve içerik stratejisi birlikte yürütüldüğünde organik büyüme daha stabil ve uzun vadeli olur."
+      }
+    },
     "modal": {
       "description": "Açıklama",
       "challenge": "Zorluk",
@@ -110,6 +136,7 @@
       "home": "Home",
       "services": "Services",
       "projects": "Projects",
+      "blog": "Blog",
       "contact": "Contact",
       "contactBtn": "Get In Touch With Us"
     },
@@ -163,6 +190,31 @@
     "projects": {
       "title": "Our Latest Work",
       "viewProject": "View Project"
+    },
+    "blog": {
+      "label": "Blog",
+      "title": "Insights & Practical Tips",
+      "subtitle": "Practical content focused on digital marketing, design, and growth.",
+      "allPosts": "All Posts",
+      "readMore": "Read More",
+      "card1": {
+        "meta": "Crew4 Team • February 21, 2026",
+        "title": "Conversion-Focused Landing Page Design in 2026",
+        "excerpt": "Increase conversions with better user flow, content hierarchy, and CTA placement.",
+        "content": "Landing page performance depends not only on visuals but on a user-intent-driven journey. In 2026, a clear value proposition at the top, trust elements in the middle, and strong CTA sequencing at the bottom significantly improve conversion rates. On mobile, speed, simplified forms, and fewer steps are critical. With continuous A/B testing of headlines, CTA copy, and visual hierarchy, brands can maintain sustainable growth."
+      },
+      "card2": {
+        "meta": "Crew4 Social Media Team • February 14, 2026",
+        "title": "Creative Testing Strategy for Social Ads",
+        "excerpt": "How to test the right creative combinations and use ad budget efficiently.",
+        "content": "The most reliable testing method is a single-variable framework: change only one element for the same audience and measure results clearly. Start with visual tests, continue with headline testing, then optimize CTA combinations to use budget effectively. Early decisions should be based on CTR, while later decisions should prioritize cost per conversion and purchase rate. Because creative fatigue is inevitable, rotating winning creatives regularly is essential for stable performance."
+      },
+      "card3": {
+        "meta": "Crew4 SEO Team • February 8, 2026",
+        "title": "SEO Technical Foundation: Speed, Structure, Content",
+        "excerpt": "Improve search visibility by aligning technical SEO with content optimization.",
+        "content": "In technical SEO, Core Web Vitals are the first barrier to overcome; unresolved LCP and CLS issues limit content impact. A clean site architecture, strong internal linking, and consistent heading hierarchy help search engines interpret pages correctly. On the content side, intent-matched subheadings, explanatory copy, and semantic depth strengthen rankings. When technical SEO and content strategy run together, organic growth becomes more stable and long-lasting."
+      }
     },
     "modal": {
       "description": "Description",

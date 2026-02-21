@@ -44,10 +44,14 @@
                         </div>
                         <nav role="navigation" class="nav-menu-wrapper w-nav-menu">
                             <ul role="list" class="nav-menu w-list-unstyled">
-                                <li><a href="#Home" class="nav-link" data-translate="nav.home">Anasayfa</a></li>
-                                <li><a href="#Service" class="nav-link" data-translate="nav.services">Hizmetler</a></li>
-                                <li><a href="#Project" class="nav-link" data-translate="nav.projects">Projeler</a></li>
-                                <li><a href="#Contact" class="nav-link" data-translate="nav.contact">İletişim</a></li>
+                                <li><a href="index.html" class="nav-link" data-translate="nav.home">Anasayfa</a></li>
+                                <li><a href="services.html" class="nav-link" data-translate="nav.services">Hizmetler</a>
+                                </li>
+                                <li><a href="projects.html" class="nav-link" data-translate="nav.projects">Projeler</a>
+                                </li>
+                                <li><a href="blog.html" class="nav-link" data-translate="nav.blog">Blog</a></li>
+                                <li><a href="contact.html" class="nav-link" data-translate="nav.contact">İletişim</a>
+                                </li>
                                 <li class="lang-separator">|</li>
                                 <li class="lang-selector">
                                     <button class="lang-btn" data-lang="tr">TR</button>
@@ -275,6 +279,51 @@
             </div>
         </section>
 
+        <section id="Blog" class="section">
+            <div class="w-layout-blockcontainer container w-container">
+                <div data-aos="fade-down"
+                    style="margin-bottom:30px; display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap;">
+                    <div>
+                        <p class="section-title-style" style="color: var(--primary-orange);"
+                            data-translate="blog.label">Blog</p>
+                        <h2 style="color:white;" data-translate="blog.title">İçerikler & İpuçları</h2>
+                        <p style="color: var(--text-gray); margin-top: 8px;" data-translate="blog.subtitle">Dijital
+                            pazarlama, tasarım ve büyüme odaklı pratik içerikler.</p>
+                    </div>
+                    <a href="blog.html" class="primary-btn-wrap w-inline-block">
+                        <div class="text-wrap">
+                            <div class="button-text" data-translate="blog.allPosts">Tüm Yazılar</div>
+                            <div class="button-text" data-translate="blog.allPosts">Tüm Yazılar</div>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="blog-grid">
+                    <article class="blog-card" data-aos="fade-up">
+                        <p class="blog-meta" data-translate="blog.card1.meta">Crew4 Ekibi • 21 Şubat 2026</p>
+                        <h3 data-translate="blog.card1.title">2026'da Dönüşüm Odaklı Landing Page Tasarımı</h3>
+                        <p data-translate="blog.card1.excerpt">Kullanıcı akışı, içerik hiyerarşisi ve CTA
+                            konumlandırmasıyla daha fazla dönüşüm elde edin.</p>
+                        <a href="blog.html?post=post-1" data-translate="blog.readMore">Devamını Oku</a>
+                    </article>
+                    <article class="blog-card" data-aos="fade-up" data-aos-delay="100">
+                        <p class="blog-meta" data-translate="blog.card2.meta">Crew4 Sosyal Medya Ekibi • 14 Şubat 2026</p>
+                        <h3 data-translate="blog.card2.title">Sosyal Medya Reklamlarında Yaratıcı Test Stratejisi</h3>
+                        <p data-translate="blog.card2.excerpt">Doğru kreatif kombinasyonlarını test ederek bütçeyi
+                            verimli kullanmanın yöntemleri.</p>
+                        <a href="blog.html?post=post-2" data-translate="blog.readMore">Devamını Oku</a>
+                    </article>
+                    <article class="blog-card" data-aos="fade-up" data-aos-delay="200">
+                        <p class="blog-meta" data-translate="blog.card3.meta">Crew4 SEO Ekibi • 8 Şubat 2026</p>
+                        <h3 data-translate="blog.card3.title">SEO'da Teknik Temel: Hız, Yapı ve İçerik</h3>
+                        <p data-translate="blog.card3.excerpt">Arama görünürlüğünü artırmak için teknik SEO ve içerik
+                            optimizasyonunu birlikte ele alın.</p>
+                        <a href="blog.html?post=post-3" data-translate="blog.readMore">Devamını Oku</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
         <section id="Contact" class="section">
             <div class="w-layout-blockcontainer container w-container">
                 <div data-aos="zoom-in">
@@ -338,6 +387,7 @@
                             <li><a href="#Home" data-translate="footer.footerHome">Anasayfa</a></li>
                             <li><a href="#Service" data-translate="footer.footerServicesLabel">Hizmetler</a></li>
                             <li><a href="#Project" data-translate="footer.footerProjects">Projeler</a></li>
+                            <li><a href="#Blog" data-translate="nav.blog">Blog</a></li>
                             <li><a href="#Contact" data-translate="footer.footerContactLabel">İletişim</a></li>
                         </ul>
                     </div>

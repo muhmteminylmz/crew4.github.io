@@ -39,6 +39,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 10. Project modal setup
   initializeProjectModal();
+
+  // 11. Smooth textarea resize
+  initializeSmoothTextareaResize();
 });
 
 /* Theme handling: detect system preference, persist selection, and provide a navbar toggle */
@@ -76,12 +79,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function initTheme() {
-    // inject a compact toggle button into the navbar (if not present)
-    const nav =
-      document.querySelector(".navbar .navbar-brand") ||
+    // inject a compact toggle button into a safe non-link navbar area
+    const mountPoint =
+      document.querySelector(".navbar .lang-selector") ||
+      document.querySelector(".navbar .navbar-wrapper") ||
       document.querySelector(".navbar") ||
       document.body;
-    if (nav && !document.querySelector(".theme-toggle")) {
+    if (mountPoint && !document.querySelector(".theme-toggle")) {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "theme-toggle";
@@ -89,12 +93,15 @@ document.addEventListener("DOMContentLoaded", () => {
       btn.setAttribute("aria-pressed", "false");
       btn.style.marginLeft = "8px";
       btn.innerText = "🌙";
-      nav.appendChild(btn);
+      mountPoint.appendChild(btn);
     }
 
     document.addEventListener("click", function (e) {
       const t = e.target.closest && e.target.closest(".theme-toggle");
-      if (t) toggleTheme();
+      if (!t) return;
+      e.preventDefault();
+      e.stopPropagation();
+      toggleTheme();
     });
 
     mqDark.addEventListener("change", () => {
@@ -363,13 +370,32 @@ function ensureFallbackMenu() {
 // ============================================
 function initializeNavbarScroll() {
   const navbar = document.querySelector(".navbar");
+  if (!navbar) return;
 
   window.addEventListener("scroll", () => {
     if (window.scrollY > 50) {
       navbar.classList.add("scrolled");
+      navbar.classList.add("scroll-visible");
     } else {
       navbar.classList.remove("scrolled");
+      navbar.classList.remove("scroll-visible");
     }
+  });
+}
+
+function initializeSmoothTextareaResize() {
+  const textareas = document.querySelectorAll("textarea.contact-input");
+  if (!textareas.length) return;
+
+  textareas.forEach((textarea) => {
+    const resizeTextarea = () => {
+      textarea.style.height = "auto";
+      const nextHeight = Math.max(textarea.scrollHeight, 120);
+      textarea.style.height = `${nextHeight}px`;
+    };
+
+    resizeTextarea();
+    textarea.addEventListener("input", resizeTextarea);
   });
 }
 
