@@ -79,23 +79,39 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function initTheme() {
-    // inject a compact toggle button into a safe non-link navbar area
-    const mountPoint =
+    // Desktop/nav mount point
+    const desktopMountPoint =
       document.querySelector(".navbar .nav-menu .lang-selector") ||
       document.querySelector(".navbar .nav-menu") ||
       document.querySelector(".navbar .nav-menu-wrapper") ||
       document.querySelector(".navbar .navbar-wrapper") ||
       document.querySelector(".navbar") ||
       document.body;
-    if (mountPoint && !document.querySelector(".theme-toggle")) {
+
+    if (desktopMountPoint && !document.querySelector(".theme-toggle-desktop")) {
       const btn = document.createElement("button");
       btn.type = "button";
-      btn.className = "theme-toggle";
+      btn.className = "theme-toggle theme-toggle-desktop";
       btn.setAttribute("aria-label", "Toggle theme");
       btn.setAttribute("aria-pressed", "false");
       btn.style.marginLeft = "8px";
       btn.innerText = "🌙";
-      mountPoint.appendChild(btn);
+      desktopMountPoint.appendChild(btn);
+    }
+
+    // Always ensure a visible mobile navbar toggle exists
+    const mobileMountPoint =
+      document.querySelector(".navbar .navbar-wrapper") ||
+      document.querySelector(".navbar") ||
+      document.body;
+    if (mobileMountPoint && !document.querySelector(".theme-toggle-mobile")) {
+      const mobileBtn = document.createElement("button");
+      mobileBtn.type = "button";
+      mobileBtn.className = "theme-toggle theme-toggle-mobile";
+      mobileBtn.setAttribute("aria-label", "Toggle theme");
+      mobileBtn.setAttribute("aria-pressed", "false");
+      mobileBtn.innerText = "🌙";
+      mobileMountPoint.appendChild(mobileBtn);
     }
 
     document.addEventListener("click", function (e) {
@@ -273,6 +289,19 @@ function ensureFallbackMenu() {
   });
 
   actions.appendChild(langWrapper);
+
+  // add theme toggle to fallback menu
+  const fallbackThemeBtn = document.createElement("button");
+  fallbackThemeBtn.type = "button";
+  fallbackThemeBtn.className = "theme-toggle theme-toggle-fallback";
+  fallbackThemeBtn.setAttribute("aria-label", "Toggle theme");
+  const lightActive =
+    document.documentElement.classList.contains("theme-light");
+  fallbackThemeBtn.setAttribute("aria-pressed", lightActive ? "true" : "false");
+  fallbackThemeBtn.title = lightActive ? "Aydın tema" : "Karanlık tema";
+  fallbackThemeBtn.innerText = lightActive ? "✨" : "🌙";
+  actions.appendChild(fallbackThemeBtn);
+
   inner.appendChild(actions);
 
   fallback.appendChild(inner);

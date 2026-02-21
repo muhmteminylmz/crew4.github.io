@@ -1250,9 +1250,36 @@ body.nav-open {
     padding: 60px 0;
   }
 
+  .navbar-wrapper,
+  .subpage-layout .navbar-wrapper {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .navbar-wrapper > * {
+    min-width: 0;
+  }
+
+  .navbar .container {
+    overflow: visible;
+  }
+
+  .menu-button.w-nav-button {
+    margin-left: 0;
+  }
+
   /* show hamburger on smaller desktops/tablets */
   .menu-button {
     display: flex;
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+  }
+
+  .navbar-brand img {
+    max-width: 88px;
   }
 
   .services-header {
@@ -1261,11 +1288,17 @@ body.nav-open {
     gap: 20px;
   }
   .services-container {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
   }
   .service-menu-col,
   .service-content-col {
-    min-width: unset;
+    min-width: 0;
+  }
+
+  .service-content-display {
+    min-height: 360px;
   }
   .project-wrapper {
     grid-template-columns: 1fr;
@@ -1283,6 +1316,24 @@ body.nav-open {
     width: 100%;
     justify-content: center;
   }
+
+  .theme-toggle-mobile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    margin-left: auto;
+    margin-right: 8px;
+    border-radius: 10px;
+    font-size: 1.05rem;
+    flex: 0 0 40px;
+  }
+
+  .theme-toggle-desktop {
+    display: none !important;
+  }
 }
 
 @media (max-width: 767px) {
@@ -1297,6 +1348,11 @@ body.nav-open {
   .navbar-wrapper {
     justify-content: space-between;
     gap: 15px;
+  }
+
+  .services-container {
+    flex-direction: column;
+    flex-wrap: wrap;
   }
 
   /* Always hide nav-menu-wrapper on mobile; fallback overlay is used instead */
@@ -1425,6 +1481,15 @@ body.nav-open {
     gap: 32px;
   }
 
+  .theme-toggle-fallback {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+    border: 1px solid rgba(249, 115, 22, 0.35);
+    background: rgba(249, 115, 22, 0.1);
+    font-size: 1rem;
+  }
+
   .fallback-primary-btn {
     width: 100%;
     font-size: 0.95rem;
@@ -1526,11 +1591,13 @@ body.nav-open {
   }
 
   .heading {
-    font-size: 1.8rem;
+    font-size: clamp(2rem, 8.5vw, 2.6rem) !important;
+    line-height: 1.14;
   }
 
   .hero-subheading {
-    font-size: 1.4rem;
+    font-size: clamp(1.55rem, 6.3vw, 2rem) !important;
+    line-height: 1.18;
   }
 
   h2 {
@@ -1556,6 +1623,8 @@ body.nav-open {
   .list.banner {
     display: block;
     width: 100%;
+    padding-left: 0;
+    margin-left: 0;
   }
 
   .banner-list-flex {
@@ -1565,9 +1634,28 @@ body.nav-open {
 
   .banner-list-text {
     max-width: 100% !important;
+    width: 100% !important;
     word-wrap: break-word;
+    word-break: break-word;
     overflow-wrap: anywhere;
     hyphens: auto;
+    line-height: 1.75;
+    font-size: 1rem;
+    margin-right: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  .banner-list-flex {
+    overflow: hidden;
+  }
+
+  .banner-list-flex > * {
+    max-width: 100% !important;
+  }
+
+  .section.bnner .w-layout-blockcontainer.container.w-container {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 
   /* Ensure parent container stacks content vertically on mobile */
@@ -1603,11 +1691,11 @@ body.nav-open {
   }
 
   .heading {
-    font-size: 1.65rem;
+    font-size: clamp(2.05rem, 9vw, 2.35rem) !important;
   }
 
   .hero-subheading {
-    font-size: 1.2rem;
+    font-size: clamp(1.6rem, 7vw, 1.9rem) !important;
   }
 
   h2 {
@@ -1615,11 +1703,19 @@ body.nav-open {
   }
 
   .section-title-style {
-    font-size: 0.95rem;
+    font-size: 1rem;
   }
 
   .mobile-fallback-item .fallback-link {
     font-size: 1.15rem;
+  }
+
+  .theme-toggle-mobile {
+    width: 36px;
+    height: 36px;
+    flex-basis: 36px;
+    margin-right: 6px;
+    font-size: 0.95rem;
   }
 
   .project-wrapper {
@@ -1859,6 +1955,10 @@ body.nav-open {
 }
 .theme-toggle:hover {
   transform: translateY(-2px);
+}
+
+.theme-toggle-mobile {
+  display: none;
 }
 
 /* Light theme overrides */
