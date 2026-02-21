@@ -1,7 +1,17 @@
 (function () {
+  const currentScript = document.currentScript;
+  const fallbackBase = new URL(
+    "assets/js/",
+    window.location.origin + window.location.pathname,
+  );
+  const baseUrl = currentScript?.src
+    ? new URL("./", currentScript.src)
+    : fallbackBase;
+  const configUrl = new URL("site-config.json", baseUrl).toString();
+
   async function loadConfig() {
     try {
-      const res = await fetch("assets/js/site-config.json", {
+      const res = await fetch(configUrl, {
         cache: "no-store",
       });
       if (!res.ok) throw new Error("Failed to load site-config.json");

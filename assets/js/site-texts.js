@@ -2,7 +2,15 @@
 // Keeps the editable data in `assets/js/site-texts.json`.
 
 (function () {
-  const url = "assets/js/site-texts.json";
+  const currentScript = document.currentScript;
+  const fallbackBase = new URL(
+    "assets/js/",
+    window.location.origin + window.location.pathname,
+  );
+  const baseUrl = currentScript?.src
+    ? new URL("./", currentScript.src)
+    : fallbackBase;
+  const url = new URL("site-texts.json", baseUrl).toString();
 
   function applySiteTexts(json) {
     window.SITE_TEXTS = json;

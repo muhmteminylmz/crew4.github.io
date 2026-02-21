@@ -81,7 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function initTheme() {
     // inject a compact toggle button into a safe non-link navbar area
     const mountPoint =
-      document.querySelector(".navbar .lang-selector") ||
+      document.querySelector(".navbar .nav-menu .lang-selector") ||
+      document.querySelector(".navbar .nav-menu") ||
+      document.querySelector(".navbar .nav-menu-wrapper") ||
       document.querySelector(".navbar .navbar-wrapper") ||
       document.querySelector(".navbar") ||
       document.body;
