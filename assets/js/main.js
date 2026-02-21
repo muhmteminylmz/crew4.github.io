@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     btns.forEach((b) => {
       b.setAttribute("aria-pressed", theme === "light");
       b.title = theme === "light" ? "Aydın tema" : "Karanlık tema";
-      b.innerText = theme === "light" ? "🌞" : "🌙";
+      b.innerText = theme === "light" ? "✨" : "🌙";
     });
   }
 
@@ -122,6 +122,8 @@ function initializeMobileMenu() {
 
   if (!menuButtons.length || !navMenuWrapper) return;
 
+  let lastTouchToggleAt = 0;
+
   function openMenu(btn) {
     btn.classList.add("active");
     const parentNav = navMenuWrapper.closest(".w-nav");
@@ -142,22 +144,35 @@ function initializeMobileMenu() {
     if (fallback) fallback.classList.remove("open");
   }
 
+  function toggleMenu(menuButton) {
+    if (menuButton.classList.contains("active")) {
+      closeMenu();
+    } else {
+      openMenu(menuButton);
+    }
+  }
+
   // Add click / pointer handlers
   menuButtons.forEach((menuButton) => {
     menuButton.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (menuButton.classList.contains("active")) {
-        closeMenu();
-      } else {
-        openMenu(menuButton);
+      if (Date.now() - lastTouchToggleAt < 500) {
+        e.preventDefault();
+        return;
       }
-    });
-    // also support touchstart for instant response
-    menuButton.addEventListener("touchstart", (e) => {
       e.stopPropagation();
-      if (menuButton.classList.contains("active")) closeMenu();
-      else openMenu(menuButton);
+      toggleMenu(menuButton);
     });
+    // mobile: prevent double toggle from touch + synthetic click
+    menuButton.addEventListener(
+      "touchstart",
+      (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        lastTouchToggleAt = Date.now();
+        toggleMenu(menuButton);
+      },
+      { passive: false },
+    );
   });
 
   // Close menu when clicking a link
@@ -495,7 +510,10 @@ function initializeProjectModal() {
 function openProjectModal(project) {
   const modal = document.getElementById("projectModal");
   const currentLang = getCurrentLanguage();
-  const t = translations[currentLang];
+  const t =
+    window.SITE_TEXTS && window.SITE_TEXTS[currentLang]
+      ? window.SITE_TEXTS[currentLang]
+      : null;
 
   document.getElementById("modalProjectImage").src = project.image;
   document.getElementById("modalProjectTitle").textContent = project.title;
@@ -508,15 +526,24 @@ function openProjectModal(project) {
   document.getElementById("modalProjectSolution").textContent =
     project.solution;
 
-  // Update modal section heads with translations
-  document.getElementById("modalLabelDescription").textContent =
-    t.modal.description;
-  document.getElementById("modalLabelChallenge").textContent =
-    t.modal.challenge;
-  document.getElementById("modalLabelSolution").textContent = t.modal.solution;
-  document.getElementById("modalLabelResults").textContent = t.modal.results;
-  document.getElementById("modalLabelTechnologies").textContent =
-    t.modal.technologies;
+  // Update modal section heads with translations (if available)
+  if (t && t.modal) {
+    if (t.modal.description)
+      document.getElementById("modalLabelDescription").textContent =
+        t.modal.description;
+    if (t.modal.challenge)
+      document.getElementById("modalLabelChallenge").textContent =
+        t.modal.challenge;
+    if (t.modal.solution)
+      document.getElementById("modalLabelSolution").textContent =
+        t.modal.solution;
+    if (t.modal.results)
+      document.getElementById("modalLabelResults").textContent =
+        t.modal.results;
+    if (t.modal.technologies)
+      document.getElementById("modalLabelTechnologies").textContent =
+        t.modal.technologies;
+  }
 
   const resultsList = document.getElementById("modalProjectResults");
   resultsList.innerHTML = "";
@@ -565,13 +592,20 @@ function initializeFormValidation() {
   // Get all form inputs
   const inputs = contactForm.querySelectorAll("input, textarea");
 
+  // Initial submit state (inactive until required fields are valid)
+  updateSubmitButtonState(contactForm, inputs);
+
   // Add blur event listeners for real-time validation
   inputs.forEach((input) => {
-    input.addEventListener("blur", () => validateField(input));
+    input.addEventListener("blur", () => {
+      validateField(input);
+      updateSubmitButtonState(contactForm, inputs);
+    });
     input.addEventListener("input", () => {
       if (input.classList.contains("error")) {
         validateField(input);
       }
+      updateSubmitButtonState(contactForm, inputs);
     });
   });
 
@@ -630,11 +664,36 @@ function isValidEmail(email) {
   return emailRegex.test(email);
 }
 
+function updateSubmitButtonState(form, inputs) {
+  const submitButton = form.querySelector('button[type="submit"]');
+  if (!submitButton) return;
+
+  const requiredFields = Array.from(inputs).filter((input) => input.required);
+  const allRequiredFilled = requiredFields.every(
+    (field) => field.value.trim().length > 0,
+  );
+
+  const emailField = form.querySelector('input[type="email"]');
+  const emailValid =
+    !emailField ||
+    !emailField.required ||
+    (emailField.value.trim().length > 0 &&
+      isValidEmail(emailField.value.trim()));
+
+  const canSubmit = allRequiredFilled && emailValid;
+
+  submitButton.disabled = !canSubmit;
+  submitButton.style.opacity = canSubmit ? "1" : "0.55";
+  submitButton.style.cursor = canSubmit ? "pointer" : "not-allowed";
+}
+
 async function handleFormSubmit(e) {
   e.preventDefault();
 
   const form = e.target;
   const inputs = form.querySelectorAll("input, textarea");
+  const submitButton = form.querySelector('button[type="submit"]');
+  const originalText = submitButton ? submitButton.innerText : "";
   const successMessage = form.parentElement.querySelector(
     ".form-success-message",
   );
@@ -662,13 +721,63 @@ async function handleFormSubmit(e) {
 
   try {
     // Show loading state
-    const submitButton = form.querySelector('button[type="submit"]');
-    const originalText = submitButton.innerText;
-    submitButton.disabled = true;
-    submitButton.innerText = "Gönderiliyor...";
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.innerText = "Gönderiliyor...";
+      submitButton.style.opacity = "0.75";
+      submitButton.style.cursor = "wait";
+    }
 
-    // Simulate API call (replace with actual endpoint)
-    await new Promise((resolve) => setTimeout(resolve, 1000));
+    // Try to send using site config if available
+    const contactConfig = window.SITE_CONFIG?.contact || {};
+    const endpoint = contactConfig.endpoint;
+    const contactEmail = contactConfig.email;
+    const delivery =
+      contactConfig.delivery ||
+      ((contactConfig.useFetch ?? false) ? "endpoint" : "mailto");
+
+    if (delivery === "endpoint" && endpoint) {
+      // Post JSON to configured endpoint
+      await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+    } else if (delivery === "formsubmit" && contactEmail) {
+      // No-backend option: formsubmit.co (first submit may require email activation)
+      const response = await fetch(
+        `https://formsubmit.co/ajax/${encodeURIComponent(contactEmail)}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: data.name,
+            email: data.email,
+            subject: data.subject,
+            message: data.message,
+            _subject: data.subject || "New contact form message",
+            _captcha: "false",
+          }),
+        },
+      );
+
+      if (!response.ok) {
+        throw new Error("Formsubmit request failed");
+      }
+    } else if (contactEmail) {
+      // Fallback: open user's mail client with prefilled subject/body
+      const mailto = `mailto:${contactEmail}?subject=${encodeURIComponent(data.subject || "Contact")}&body=${encodeURIComponent("Name: " + data.name + "\nEmail: " + data.email + "\n\n" + data.message)}`;
+      // Use location.href to open mail client; await a short delay to allow navigation
+      window.location.href = mailto;
+      // Give a short delay so the UX shows the sending state briefly
+      await new Promise((resolve) => setTimeout(resolve, 600));
+    } else {
+      // No endpoint configured — preserve the previous simulated delay
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+    }
 
     // Show success message
     successMessage.classList.add("show");
@@ -683,12 +792,13 @@ async function handleFormSubmit(e) {
     setTimeout(() => {
       successMessage.classList.remove("show");
     }, 5000);
-
-    // Reset button
-    submitButton.disabled = false;
-    submitButton.innerText = originalText;
   } catch (error) {
     console.error("Form submission error:", error);
     alert("Bir hata oluştu. Lütfen daha sonra tekrar deneyin.");
+  } finally {
+    if (submitButton) {
+      submitButton.innerText = originalText;
+    }
+    updateSubmitButtonState(form, inputs);
   }
 }

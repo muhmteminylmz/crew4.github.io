@@ -264,6 +264,7 @@ body {
 h1.heading {
   background: linear-gradient(to right, #ffffff, #f97316);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .hero-subheading {
@@ -848,11 +849,40 @@ h1.heading {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
+.instagram-icon {
+  background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 45%, #f77737 100%);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.linkedin-icon {
+  background: #0a66c2;
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
 .social-icon:hover {
-  background: var(--primary-orange);
+  background: rgba(255, 255, 255, 0.1);
   border-color: var(--primary-orange);
   transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(249, 115, 22, 0.3);
+  box-shadow:
+    0 0 0 2px rgba(249, 115, 22, 0.25),
+    0 10px 24px rgba(249, 115, 22, 0.28);
+}
+
+.instagram-icon:hover {
+  background: linear-gradient(135deg, #fd1d1d 0%, #e1306c 45%, #f77737 100%);
+}
+
+.linkedin-icon:hover {
+  background: #0a66c2;
+}
+
+/* Ensure inline SVG icons size and inherit color */
+.social-icon svg {
+  width: 18px;
+  height: 18px;
+  display: block;
 }
 
 .footer-bottom {
@@ -1414,14 +1444,15 @@ body.nav-open {
   background-color: var(--dark-blue);
   margin: 40px auto;
   padding: 30px;
-  max-width: 1000px;
+  max-width: 1120px;
+  width: 92vw;
   border-radius: 20px;
   border: 1px solid rgba(255, 255, 255, 0.05);
   animation: slideUp 0.3s ease-out;
 }
 
 .project-modal-close {
-  color: #aaa;
+  color: #fff;
   position: absolute;
   right: 20px;
   top: 20px;
@@ -1436,6 +1467,10 @@ body.nav-open {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 5;
+  background: rgba(15, 23, 42, 0.75);
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .project-modal-close:hover {
@@ -1446,17 +1481,23 @@ body.nav-open {
 
 .project-modal-body {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(420px, 1.2fr) 1fr;
   gap: 40px;
+  align-items: start;
 }
 
 .project-modal-image {
   position: sticky;
-  top: 100px;
+  top: 24px;
+  align-self: start;
 }
 
 .project-modal-image img {
   width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  max-height: 75vh;
   border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
@@ -1540,6 +1581,15 @@ body.nav-open {
   .project-modal-content {
     margin: 20px 10px;
     padding: 20px;
+    padding-top: 60px;
+  }
+
+  .project-modal-close {
+    top: 10px;
+    right: 10px;
+    width: 44px;
+    height: 44px;
+    font-size: 32px;
   }
 
   .project-modal-body {
@@ -1621,6 +1671,7 @@ body.nav-open {
 .theme-light h1.heading {
   background: linear-gradient(to right, #0f172a, var(--primary-orange));
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 .theme-light .hero-subheading {
@@ -1681,9 +1732,15 @@ body.nav-open {
 
 /* Headline and paragraph colors */
 .theme-light h1.heading {
-  background: none !important;
-  -webkit-text-fill-color: initial !important;
-  color: var(--text) !important;
+  background: linear-gradient(
+    to right,
+    #0f172a,
+    var(--primary-orange)
+  ) !important;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
 }
 .theme-light .content-text p,
 .theme-light p {
@@ -1722,6 +1779,25 @@ body.nav-open {
   color: var(--text) !important;
 }
 
+.theme-light .instagram-icon,
+.theme-light .linkedin-icon {
+  color: #fff !important;
+  border: 0 !important;
+}
+
+.theme-light .instagram-icon {
+  background: linear-gradient(
+    135deg,
+    #fd1d1d 0%,
+    #e1306c 45%,
+    #f77737 100%
+  ) !important;
+}
+
+.theme-light .linkedin-icon {
+  background: #0a66c2 !important;
+}
+
 .theme-light .content-text p,
 .theme-light .footer-col p,
 .theme-light .project-section p {
@@ -1733,10 +1809,61 @@ body.nav-open {
 .theme-light .footer-links a {
   color: var(--muted);
 }
-.theme-light .social-icon {
+.theme-light .social-icon:not(.instagram-icon):not(.linkedin-icon) {
   background: rgba(15, 23, 42, 0.03);
   color: var(--text);
   border: 1px solid rgba(15, 23, 42, 0.04);
+}
+
+.theme-light .social-icon:hover {
+  transform: translateY(-5px);
+}
+
+.theme-light .instagram-icon:hover {
+  background: linear-gradient(
+    135deg,
+    #fd1d1d 0%,
+    #e1306c 45%,
+    #f77737 100%
+  ) !important;
+}
+
+.theme-light .linkedin-icon:hover {
+  background: #0a66c2 !important;
+}
+
+/* Final readability fixes for light theme (dark theme untouched) */
+.theme-light .navbar,
+.theme-light .section,
+.theme-light .container,
+.theme-light .footer-col,
+.theme-light .content-text,
+.theme-light .project-wrap,
+.theme-light .project-modal-content {
+  color: var(--text-primary);
+}
+
+.theme-light .project-title,
+.theme-light .project-modal-info h2,
+.theme-light .project-section p,
+.theme-light .results-list li,
+.theme-light h2[style*="color:white"] {
+  color: var(--text-primary) !important;
+}
+
+.theme-light .contact-input::placeholder {
+  color: #64748b !important;
+}
+
+.theme-light .mobile-fallback-links-list .fallback-link,
+.theme-light .mobile-fallback-actions .button-text,
+.theme-light .mobile-fallback-lang .lang-btn {
+  color: var(--text-primary) !important;
+}
+
+.theme-light .footer {
+  background: #f8fafc;
+  border-top: 1px solid var(--border-light);
 }
 .theme-light .primary-btn-wrap::before {
   background: rgba(0, 0, 0, 0.04);
@@ -1770,10 +1897,6 @@ body.nav-open {
 }
 
 /* --- LIGHT THEME: Additional components per user request --- */
-.theme-light,
-body.light-theme {
-  /* ensure variables are available when body.light-theme is used */
-}
 
 .theme-light body,
 body.light-theme {
@@ -1928,12 +2051,64 @@ body.light-theme small {
   color: var(--text) !important;
 }
 
-/* Keep buttons and footer colors intact */
-.theme-light .primary-btn-wrap,
-.theme-light .button-primary,
-.theme-light .footer,
-body.light-theme .primary-btn-wrap,
-body.light-theme .button-primary,
-body.light-theme .footer {
-  /* no change here; these have their own rules */
+/* Final pass to preserve readability in light theme */
+.theme-light .footer {
+  background: #f8fafc !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-light .footer-col h4,
+.theme-light .footer-col p,
+.theme-light .footer-links a,
+.theme-light .footer-bottom {
+  color: var(--text-primary) !important;
+}
+
+.theme-light .footer-links a:hover {
+  color: var(--primary-orange) !important;
+}
+
+/* Light theme hero heading: same style as dark, light-optimized colors */
+.theme-light h1.heading {
+  background: linear-gradient(to right, #0f172a, #f97316) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  color: transparent !important;
+  text-shadow: none;
+}
+
+.theme-light h1.heading::after {
+  content: none !important;
+  display: none !important;
+}
+
+.theme-light .hero-subheading {
+  color: #475569 !important;
+  font-weight: 600;
+  letter-spacing: normal;
+  line-height: 1.2;
+}
+
+/* Light theme language switcher: black text in TR|EN boxes */
+.theme-light .lang-btn {
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.25) !important;
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.theme-light .lang-btn:hover {
+  color: #0f172a !important;
+  border-color: var(--primary-orange) !important;
+  background: rgba(249, 115, 22, 0.12) !important;
+}
+
+.theme-light .lang-btn.active {
+  color: #0f172a !important;
+  background: var(--primary-orange) !important;
+  border-color: var(--primary-orange) !important;
+}
+
+.theme-light .lang-separator {
+  color: rgba(15, 23, 42, 0.35) !important;
 }

@@ -1,0 +1,8 @@
+{
+  "contact": {
+    "delivery": "formsubmit",
+    "email": "info@crew4.com",
+    "endpoint": "",
+    "useFetch": false
+  }
+}

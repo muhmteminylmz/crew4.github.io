@@ -312,9 +312,24 @@
                             Dijital dünyada markanızı büyütmek için strateji, tasarım ve teknolojiyi birleştiriyoruz.
                             Modern çözümler, gerçek sonuçlar.</p>
                         <div class="social-links">
-                            <a href="#" class="social-icon">IG</a>
-                            <a href="#" class="social-icon">TW</a>
-                            <a href="#" class="social-icon">LN</a>
+                            <a href="https://www.instagram.com/crew4agency/" class="social-icon instagram-icon"
+                                target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+                                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                    aria-hidden="true" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                                    <line x1="17.5" y1="6.5" x2="17.5" y2="6.5" />
+                                </svg>
+                            </a>
+                            <a href="https://www.linkedin.com/company/crew4agency/" class="social-icon linkedin-icon"
+                                target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+                                <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"
+                                    aria-hidden="true">
+                                    <path
+                                        d="M4.98 3.5C4.98 4.88 3.86 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5v13H0V8zm7 0h4.8v1.8h.1c.7-1.3 2.4-2.7 4.9-2.7 5.2 0 6.1 3.4 6.1 7.9V21H17v-6.2c0-1.5 0-3.4-2.1-3.4-2.1 0-2.4 1.6-2.4 3.3V21H7V8z" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
                     <div class="footer-col">
@@ -339,8 +354,8 @@
                         <h4 data-translate="footer.contact">İletişim</h4>
                         <p>
                             <strong data-translate="footer.address">Adres</strong>:<br>
-                            Maslak Mah. Büyükdere Cad.<br>
-                            No: 123, Sarıyer / İstanbul
+                            <span data-content-key="footer.addressLines.line1">Maslak Mah. Büyükdere Cad.</span><br>
+                            <span data-content-key="footer.addressLines.line2">No: 123, Sarıyer / İstanbul</span>
                         </p>
                         <p><strong data-translate="footer.phone">Telefon</strong>:<br>+90 212 555 00 00</p>
                         <p><strong data-translate="footer.email">Email</strong>:<br>info@crew4.com</p>
@@ -361,10 +376,14 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
     <!-- Translation System -->
+    <script src="assets/js/site-texts.js"></script>
     <script src="assets/js/translations.js"></script>
 
     <!-- Projects Data -->
     <script src="assets/js/projects-data.js"></script>
+
+    <!-- Site config (loads `assets/js/site-config.json`) -->
+    <script src="assets/js/site-config.js"></script>
 
     <!-- Main Script -->
     <script src="assets/js/main.js"></script>
@@ -382,27 +401,27 @@
                     <p class="project-category" id="modalProjectCategory"></p>
 
                     <div class="project-section">
-                        <h3 id="modalLabelDescription">Description</h3>
+                        <h3 id="modalLabelDescription" data-translate="modal.description">Description</h3>
                         <p id="modalProjectDescription"></p>
                     </div>
 
                     <div class="project-section">
-                        <h3 id="modalLabelChallenge">Challenge</h3>
+                        <h3 id="modalLabelChallenge" data-translate="modal.challenge">Challenge</h3>
                         <p id="modalProjectChallenge"></p>
                     </div>
 
                     <div class="project-section">
-                        <h3 id="modalLabelSolution">Solution</h3>
+                        <h3 id="modalLabelSolution" data-translate="modal.solution">Solution</h3>
                         <p id="modalProjectSolution"></p>
                     </div>
 
                     <div class="project-section">
-                        <h3 id="modalLabelResults">Results</h3>
+                        <h3 id="modalLabelResults" data-translate="modal.results">Results</h3>
                         <ul id="modalProjectResults" class="results-list"></ul>
                     </div>
 
                     <div class="project-section">
-                        <h3 id="modalLabelTechnologies">Technologies</h3>
+                        <h3 id="modalLabelTechnologies" data-translate="modal.technologies">Technologies</h3>
                         <div id="modalProjectTechnologies" class="tech-tags"></div>
                     </div>
                 </div>
