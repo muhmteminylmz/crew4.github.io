@@ -238,6 +238,11 @@ body {
   .w-nav-overlay {
     display: none !important;
   }
+
+  .menu-button.w-nav-button,
+  .menu-button {
+    display: flex !important;
+  }
 }
 
 /* --- BUTONLAR --- */
@@ -1098,6 +1103,7 @@ textarea.contact-input::-webkit-scrollbar-button {
   justify-content: center;
   position: relative;
   z-index: 1000;
+  touch-action: manipulation;
 }
 
 /* MOBILE FALLBACK MENU - GLOBAL */
@@ -1257,6 +1263,7 @@ body.nav-open {
   .services-container {
     flex-direction: column;
   }
+  .service-menu-col,
   .service-content-col {
     min-width: unset;
   }
@@ -1270,7 +1277,9 @@ body.nav-open {
     font-size: 2.5rem;
   }
 
-  .primary-btn-wrap {
+  .services-header .primary-btn-wrap,
+  .contact-form-container .primary-btn-wrap,
+  .mobile-fallback-actions .primary-btn-wrap {
     width: 100%;
     justify-content: center;
   }
@@ -1303,15 +1312,17 @@ body.nav-open {
 
   /* Position menu-button as floating close on the viewport when nav is open */
   .menu-button {
-    position: fixed !important;
-    right: 18px !important;
-    top: 18px !important;
-    z-index: 4000 !important;
-    display: flex !important;
+    position: relative;
+    right: auto;
+    top: auto;
+    z-index: 2000;
   }
 
   body.nav-open .menu-button {
+    position: fixed !important;
     right: 18px !important;
+    top: 18px !important;
+    z-index: 10001 !important;
   }
 
   /* Left-aligned menu column for better readability */
@@ -1560,7 +1571,7 @@ body.nav-open {
   }
 
   /* Ensure parent container stacks content vertically on mobile */
-  .w-layout-blockcontainer.container.w-container {
+  .section.bnner .w-layout-blockcontainer.container.w-container {
     display: flex;
     flex-direction: column;
     align-items: stretch;
@@ -1592,15 +1603,23 @@ body.nav-open {
   }
 
   .heading {
-    font-size: 1.5rem;
+    font-size: 1.65rem;
   }
 
   .hero-subheading {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
   }
 
   h2 {
-    font-size: 1.5rem;
+    font-size: 1.6rem;
+  }
+
+  .section-title-style {
+    font-size: 0.95rem;
+  }
+
+  .mobile-fallback-item .fallback-link {
+    font-size: 1.15rem;
   }
 
   .project-wrapper {

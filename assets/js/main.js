@@ -130,8 +130,7 @@ function initializeMobileMenu() {
   const navLinks = document.querySelectorAll(".nav-link");
 
   if (!menuButtons.length || !navMenuWrapper) return;
-
-  let lastTouchToggleAt = 0;
+  ensureFallbackMenu();
 
   function openMenu(btn) {
     btn.classList.add("active");
@@ -164,24 +163,10 @@ function initializeMobileMenu() {
   // Add click / pointer handlers
   menuButtons.forEach((menuButton) => {
     menuButton.addEventListener("click", (e) => {
-      if (Date.now() - lastTouchToggleAt < 500) {
-        e.preventDefault();
-        return;
-      }
+      e.preventDefault();
       e.stopPropagation();
       toggleMenu(menuButton);
     });
-    // mobile: prevent double toggle from touch + synthetic click
-    menuButton.addEventListener(
-      "touchstart",
-      (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        lastTouchToggleAt = Date.now();
-        toggleMenu(menuButton);
-      },
-      { passive: false },
-    );
   });
 
   // Close menu when clicking a link
@@ -219,6 +204,8 @@ function initializeMobileMenu() {
       closeMenu();
     }
   });
+
+  window.addEventListener("orientationchange", closeMenu);
 }
 
 // ==========================
