@@ -42,7 +42,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 11. Smooth textarea resize
   initializeSmoothTextareaResize();
+
+  // 12. Temporary GitHub version badge
+  injectGithubVersionBadge();
 });
+
+function injectGithubVersionBadge() {
+  if (document.querySelector(".github-version-pill")) return;
+
+  const badge = document.createElement("a");
+  badge.className = "github-version-pill";
+  badge.href = "https://github.com/muhmteminylmz/crew4.github.io/tree/Software";
+  badge.target = "_blank";
+  badge.rel = "noopener noreferrer";
+  badge.textContent = "GitHub • Software";
+  badge.setAttribute("aria-label", "GitHub version: Software branch");
+
+  document.body.appendChild(badge);
+}
 
 /* Theme handling: detect system preference, persist selection, and provide a navbar toggle */
 (function () {

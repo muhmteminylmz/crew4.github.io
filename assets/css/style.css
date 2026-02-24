@@ -2827,3 +2827,130 @@ body:not(.theme-light) .service-content-display {
     font-size: 0.86rem !important;
   }
 }
+
+/* Scoped mobile fix for only the services module (index + services page) */
+@media (max-width: 767px) {
+  .services-section .services-container {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    align-items: stretch !important;
+  }
+
+  .services-section .service-menu-col,
+  .services-section .service-content-col {
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    flex: 1 1 auto !important;
+    border: 0 !important;
+    padding: 0 !important;
+  }
+
+  .services-section .service-left-block {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    overflow: visible !important;
+  }
+
+  .services-section .service-item-wrap {
+    min-height: 70px;
+    margin: 0 !important;
+    padding: 10px 12px !important;
+    border-radius: 10px;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .services-section .service-item-wrap:hover,
+  .services-section .service-item-wrap.active-service {
+    transform: none !important;
+  }
+
+  .services-section .service-item-wrap .service-title {
+    font-size: 0.86rem !important;
+    line-height: 1.32 !important;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .services-section .service-icon-box {
+    display: none !important;
+  }
+
+  .services-section .service-content-display {
+    min-height: auto !important;
+    padding: 14px !important;
+  }
+
+  .services-section .content-image {
+    height: clamp(140px, 42vw, 190px) !important;
+    margin-bottom: 12px;
+  }
+
+  .services-section .content-text h3 {
+    font-size: 1rem !important;
+    line-height: 1.3;
+  }
+
+  .services-section .content-text p {
+    font-size: 0.9rem !important;
+    line-height: 1.55 !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-section .service-left-block {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .services-section .service-item-wrap {
+    min-height: 62px;
+    padding: 9px 10px !important;
+  }
+
+  .services-section .service-item-wrap .service-title {
+    font-size: 0.82rem !important;
+  }
+
+  .services-section .service-content-display {
+    padding: 12px !important;
+  }
+}
+
+/* Temporary GitHub version pill (remove anytime) */
+.github-version-pill {
+  position: fixed;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10050;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  color: #ffffff;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(249, 115, 22, 0.55);
+  backdrop-filter: blur(6px);
+}
+
+.theme-light .github-version-pill {
+  color: #0f172a;
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(15, 23, 42, 0.25);
+}
+
+@media (max-width: 767px) {
+  .github-version-pill {
+    top: 6px;
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+}
