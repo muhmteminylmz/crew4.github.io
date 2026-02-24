@@ -62,6 +62,34 @@ function injectGithubVersionBadge() {
   badge.setAttribute("aria-label", "Version message");
 
   document.body.appendChild(badge);
+
+  fetchLatestGithubCommitMessage()
+    .then((latestMessage) => {
+      if (!latestMessage) return;
+      badge.textContent = latestMessage;
+    })
+    .catch(() => {});
+}
+
+async function fetchLatestGithubCommitMessage() {
+  const response = await fetch(
+    "https://api.github.com/repos/muhmteminylmz/crew4.github.io/commits?sha=Software&per_page=1",
+    {
+      headers: {
+        Accept: "application/vnd.github+json",
+      },
+      cache: "no-store",
+    },
+  );
+
+  if (!response.ok) return null;
+  const data = await response.json();
+  if (!Array.isArray(data) || !data.length) return null;
+
+  const rawMessage = data[0]?.commit?.message;
+  if (!rawMessage) return null;
+
+  return rawMessage.split("\n")[0].trim();
 }
 
 /* Theme handling: detect system preference, persist selection, and provide a navbar toggle */
@@ -476,6 +504,8 @@ function initializeServiceToggle() {
       if (mobile) {
         section.classList.add("services-mobile-accordion");
 
+        ensureMobileServiceIntro(section);
+
         items.forEach((item) => {
           const serviceId = getServiceIdFromItem(item);
           if (!serviceId) return;
@@ -515,6 +545,24 @@ function getServiceIdFromItem(item) {
   const onclick = item.getAttribute("onclick") || "";
   const match = onclick.match(/toggleService\('([^']+)'/);
   return match ? match[1] : null;
+}
+
+function ensureMobileServiceIntro(section) {
+  let intro = section.querySelector(".service-mobile-default");
+  const sourceDefault = section.querySelector("#content-default");
+  const targetContainer = section.querySelector(".service-menu-col");
+
+  if (!sourceDefault || !targetContainer) return;
+
+  if (!intro) {
+    intro = document.createElement("div");
+    intro.className = "service-mobile-default";
+    targetContainer.insertBefore(intro, targetContainer.firstChild);
+  }
+
+  if (!intro.innerHTML.trim()) {
+    intro.innerHTML = sourceDefault.innerHTML;
+  }
 }
 
 function openMobileServiceItem(item, forceOpen = false) {

@@ -2834,6 +2834,30 @@ body:not(.theme-light) .service-content-display {
     display: none !important;
   }
 
+  .services-section .service-mobile-default {
+    margin-bottom: 10px;
+    background: rgba(30, 41, 59, 0.4);
+    border: 1px solid rgba(249, 115, 22, 0.2);
+    border-radius: 12px;
+    padding: 12px;
+    animation: serviceFadeIn 0.35s ease;
+  }
+
+  .services-section .service-mobile-default .content-image {
+    height: clamp(140px, 45vw, 210px) !important;
+    margin-bottom: 12px;
+  }
+
+  .services-section .service-mobile-default .content-text h3 {
+    font-size: 1rem !important;
+    line-height: 1.3;
+  }
+
+  .services-section .service-mobile-default .content-text p {
+    font-size: 0.9rem !important;
+    line-height: 1.55 !important;
+  }
+
   .services-section .services-container {
     display: flex !important;
     flex-direction: column !important;
@@ -2866,6 +2890,10 @@ body:not(.theme-light) .service-content-display {
     transform: none !important;
     box-shadow: none !important;
     display: block;
+    transition:
+      border-color 0.28s ease,
+      background-color 0.28s ease,
+      box-shadow 0.28s ease;
   }
 
   .services-section .service-item-wrap:hover,
@@ -2888,14 +2916,24 @@ body:not(.theme-light) .service-content-display {
   }
 
   .services-section .service-inline-content {
-    display: none;
+    display: block;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-6px);
     margin-top: 10px;
     padding-top: 10px;
     border-top: 1px solid rgba(249, 115, 22, 0.2);
+    transition:
+      max-height 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.28s ease,
+      transform 0.28s ease;
   }
 
   .services-section .service-inline-content.active {
-    display: block;
+    max-height: 900px;
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .services-section .service-inline-content .content-image {
@@ -2959,6 +2997,30 @@ body:not(.theme-light) .service-content-display {
   .services-section .service-inline-content .content-text p {
     font-size: 0.84rem !important;
     line-height: 1.45 !important;
+  }
+
+  .services-section .service-mobile-default {
+    padding: 10px;
+  }
+
+  .services-section .service-mobile-default .content-text h3 {
+    font-size: 0.94rem !important;
+  }
+
+  .services-section .service-mobile-default .content-text p {
+    font-size: 0.85rem !important;
+    line-height: 1.45 !important;
+  }
+}
+
+@keyframes serviceFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
