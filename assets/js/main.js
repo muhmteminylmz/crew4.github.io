@@ -494,8 +494,15 @@ function initializeServiceToggle() {
   const serviceSections = document.querySelectorAll(".services-section");
   if (!serviceSections.length) return;
 
+  const mobileMq = window.matchMedia("(max-width: 767px)");
+  let lastMobileState = null;
+  let resizeTimer = null;
+
   const syncMode = () => {
-    const mobile = window.matchMedia("(max-width: 767px)").matches;
+    const mobile = mobileMq.matches;
+
+    if (lastMobileState === mobile) return;
+    lastMobileState = mobile;
 
     serviceSections.forEach((section) => {
       const items = section.querySelectorAll(".service-item-wrap");
@@ -503,8 +510,8 @@ function initializeServiceToggle() {
 
       if (mobile) {
         section.classList.add("services-mobile-accordion");
-
-        ensureMobileServiceIntro(section);
+        section.classList.remove("has-service-selection");
+        ensureMobileServicePlaceholder(section);
 
         items.forEach((item) => {
           const serviceId = getServiceIdFromItem(item);
@@ -521,24 +528,41 @@ function initializeServiceToggle() {
             const sourceBlock = section.querySelector("#content-" + serviceId);
             if (sourceBlock) inlineContent.innerHTML = sourceBlock.innerHTML;
           }
-        });
 
-        const currentActive =
-          section.querySelector(".service-item-wrap.active-service") ||
-          items[0];
-        if (currentActive) openMobileServiceItem(currentActive, true);
+          item.classList.remove("active-service");
+          inlineContent.classList.remove("active");
+          item.setAttribute("aria-expanded", "false");
+        });
       } else {
         section.classList.remove("services-mobile-accordion");
+
+        const placeholder = section.querySelector(
+          ".service-mobile-placeholder",
+        );
+        if (placeholder) placeholder.remove();
+
         items.forEach((item) => {
           const inlineContent = item.querySelector(".service-inline-content");
           if (inlineContent) inlineContent.classList.remove("active");
+          item.classList.remove("active-service");
+          item.setAttribute("aria-expanded", "false");
         });
+
+        section
+          .querySelectorAll(".content-block")
+          .forEach((content) => content.classList.remove("active"));
+
+        const defaultContent = section.querySelector("#content-default");
+        if (defaultContent) defaultContent.classList.add("active");
       }
     });
   };
 
   syncMode();
-  window.addEventListener("resize", syncMode);
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(syncMode, 140);
+  });
 }
 
 function getServiceIdFromItem(item) {
@@ -547,21 +571,22 @@ function getServiceIdFromItem(item) {
   return match ? match[1] : null;
 }
 
-function ensureMobileServiceIntro(section) {
-  let intro = section.querySelector(".service-mobile-default");
-  const sourceDefault = section.querySelector("#content-default");
+function ensureMobileServicePlaceholder(section) {
+  let intro = section.querySelector(".service-mobile-placeholder");
   const targetContainer = section.querySelector(".service-menu-col");
-
-  if (!sourceDefault || !targetContainer) return;
+  if (!targetContainer) return;
 
   if (!intro) {
     intro = document.createElement("div");
-    intro.className = "service-mobile-default";
+    intro.className = "service-mobile-placeholder";
     targetContainer.insertBefore(intro, targetContainer.firstChild);
   }
 
   if (!intro.innerHTML.trim()) {
-    intro.innerHTML = sourceDefault.innerHTML;
+    intro.innerHTML = `
+      <div class="service-mobile-placeholder-title">Hizmet seçin</div>
+      <p class="service-mobile-placeholder-text">Detayları görmek için aşağıdan bir hizmete dokunun.</p>
+    `;
   }
 }
 
@@ -576,11 +601,17 @@ function openMobileServiceItem(item, forceOpen = false) {
     el.classList.remove("active-service");
     const inlineContent = el.querySelector(".service-inline-content");
     if (inlineContent) inlineContent.classList.remove("active");
+    el.setAttribute("aria-expanded", "false");
   });
 
-  if (wasActive && !forceOpen) return;
+  if (wasActive && !forceOpen) {
+    section.classList.remove("has-service-selection");
+    return;
+  }
 
   item.classList.add("active-service");
+  item.setAttribute("aria-expanded", "true");
+  section.classList.add("has-service-selection");
   const inlineContent = item.querySelector(".service-inline-content");
   if (inlineContent) inlineContent.classList.add("active");
 }
@@ -596,6 +627,8 @@ function toggleService(serviceId, element) {
     openMobileServiceItem(element);
     return;
   }
+
+  section.classList.remove("has-service-selection");
 
   // Tıklanan öğe zaten aktif mi kontrol et
   const isActive = element.classList.contains("active-service");
