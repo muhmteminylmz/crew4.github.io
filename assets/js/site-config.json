@@ -1,4 +1,7 @@
 {
+  "meta": {
+    "versionMessage": "v1.1.13"
+  },
   "contact": {
     "delivery": "formsubmit",
     "email": "info@crew4.com",

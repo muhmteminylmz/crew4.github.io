@@ -50,13 +50,16 @@ document.addEventListener("DOMContentLoaded", () => {
 function injectGithubVersionBadge() {
   if (document.querySelector(".github-version-pill")) return;
 
-  const badge = document.createElement("a");
+  const badge = document.createElement("div");
   badge.className = "github-version-pill";
-  badge.href = "https://github.com/muhmteminylmz/crew4.github.io/tree/Software";
-  badge.target = "_blank";
-  badge.rel = "noopener noreferrer";
-  badge.textContent = "GitHub • Software";
-  badge.setAttribute("aria-label", "GitHub version: Software branch");
+  const versionMessage =
+    window.SITE_CONFIG?.meta?.versionMessage ||
+    window.VERSION_MESSAGE ||
+    localStorage.getItem("site-version-message") ||
+    "v1.1.13";
+
+  badge.textContent = versionMessage;
+  badge.setAttribute("aria-label", "Version message");
 
   document.body.appendChild(badge);
 }
@@ -460,31 +463,114 @@ function initializeSmoothScroll() {
 // 4. SERVICE TOGGLE WITH ENHANCED LOGIC
 // ============================================
 function initializeServiceToggle() {
-  // Optional: Add click event listeners programmatically if needed
+  const serviceSections = document.querySelectorAll(".services-section");
+  if (!serviceSections.length) return;
+
+  const syncMode = () => {
+    const mobile = window.matchMedia("(max-width: 767px)").matches;
+
+    serviceSections.forEach((section) => {
+      const items = section.querySelectorAll(".service-item-wrap");
+      if (!items.length) return;
+
+      if (mobile) {
+        section.classList.add("services-mobile-accordion");
+
+        items.forEach((item) => {
+          const serviceId = getServiceIdFromItem(item);
+          if (!serviceId) return;
+
+          let inlineContent = item.querySelector(".service-inline-content");
+          if (!inlineContent) {
+            inlineContent = document.createElement("div");
+            inlineContent.className = "service-inline-content";
+            item.appendChild(inlineContent);
+          }
+
+          if (!inlineContent.innerHTML.trim()) {
+            const sourceBlock = section.querySelector("#content-" + serviceId);
+            if (sourceBlock) inlineContent.innerHTML = sourceBlock.innerHTML;
+          }
+        });
+
+        const currentActive =
+          section.querySelector(".service-item-wrap.active-service") ||
+          items[0];
+        if (currentActive) openMobileServiceItem(currentActive, true);
+      } else {
+        section.classList.remove("services-mobile-accordion");
+        items.forEach((item) => {
+          const inlineContent = item.querySelector(".service-inline-content");
+          if (inlineContent) inlineContent.classList.remove("active");
+        });
+      }
+    });
+  };
+
+  syncMode();
+  window.addEventListener("resize", syncMode);
+}
+
+function getServiceIdFromItem(item) {
+  const onclick = item.getAttribute("onclick") || "";
+  const match = onclick.match(/toggleService\('([^']+)'/);
+  return match ? match[1] : null;
+}
+
+function openMobileServiceItem(item, forceOpen = false) {
+  const section = item.closest(".services-section");
+  if (!section) return;
+
+  const items = section.querySelectorAll(".service-item-wrap");
+  const wasActive = item.classList.contains("active-service");
+
+  items.forEach((el) => {
+    el.classList.remove("active-service");
+    const inlineContent = el.querySelector(".service-inline-content");
+    if (inlineContent) inlineContent.classList.remove("active");
+  });
+
+  if (wasActive && !forceOpen) return;
+
+  item.classList.add("active-service");
+  const inlineContent = item.querySelector(".service-inline-content");
+  if (inlineContent) inlineContent.classList.add("active");
 }
 
 function toggleService(serviceId, element) {
+  const section = element.closest(".services-section") || document;
+
+  if (
+    section.classList &&
+    section.classList.contains("services-mobile-accordion") &&
+    window.matchMedia("(max-width: 767px)").matches
+  ) {
+    openMobileServiceItem(element);
+    return;
+  }
+
   // Tıklanan öğe zaten aktif mi kontrol et
   const isActive = element.classList.contains("active-service");
 
   // Tüm butonlardan aktif sınıfını kaldır
-  document
+  section
     .querySelectorAll(".service-item-wrap")
     .forEach((el) => el.classList.remove("active-service"));
 
   // Tüm içerik bloklarını gizle
-  document
+  section
     .querySelectorAll(".content-block")
     .forEach((el) => el.classList.remove("active"));
 
   if (isActive) {
     // EĞER ZATEN AKTİFSE: Varsayılana dön (Reset)
-    document.getElementById("content-default").classList.add("active");
+    const defaultContent = section.querySelector("#content-default");
+    if (defaultContent) defaultContent.classList.add("active");
   } else {
     // EĞER AKTİF DEĞİLSE: Yeni içeriği aç
     element.classList.add("active-service");
 
-    const targetContent = document.getElementById("content-" + serviceId);
+    const targetContent = section.querySelector("#content-" + serviceId);
     if (targetContent) {
       targetContent.classList.add("active");
     }
