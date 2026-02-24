@@ -1337,6 +1337,10 @@ body.nav-open {
 }
 
 @media (max-width: 767px) {
+  .page-wrapper {
+    padding-top: 70px;
+  }
+
   .section {
     padding: 50px 0;
   }
@@ -1351,8 +1355,20 @@ body.nav-open {
   }
 
   .services-container {
-    flex-direction: column;
-    flex-wrap: wrap;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .service-menu-col {
+    flex: 0 0 42%;
+    min-width: 0;
+  }
+
+  .service-content-col {
+    flex: 1;
+    min-width: 0;
   }
 
   /* Always hide nav-menu-wrapper on mobile; fallback overlay is used instead */
@@ -1583,7 +1599,7 @@ body.nav-open {
     flex-direction: column;
   }
   .section.bnner {
-    padding-top: 72px;
+    padding-top: 20px;
   }
 
   .contact-form-container {
@@ -1699,7 +1715,7 @@ body.nav-open {
   }
 
   .section.bnner {
-    padding-top: 60px;
+    padding-top: 16px;
   }
 
   h2 {
