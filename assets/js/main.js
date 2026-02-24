@@ -510,7 +510,6 @@ function initializeServiceToggle() {
 
       if (mobile) {
         section.classList.add("services-mobile-accordion");
-        section.classList.remove("has-service-selection");
         ensureMobileServicePlaceholder(section);
 
         items.forEach((item) => {
@@ -533,6 +532,13 @@ function initializeServiceToggle() {
           inlineContent.classList.remove("active");
           item.setAttribute("aria-expanded", "false");
         });
+
+        const shouldKeepClosed = section.dataset.mobileServiceClosed === "1";
+        if (!shouldKeepClosed && items[0]) {
+          openMobileServiceItem(items[0], true);
+        } else {
+          section.classList.remove("has-service-selection");
+        }
       } else {
         section.classList.remove("services-mobile-accordion");
 
@@ -606,12 +612,14 @@ function openMobileServiceItem(item, forceOpen = false) {
 
   if (wasActive && !forceOpen) {
     section.classList.remove("has-service-selection");
+    section.dataset.mobileServiceClosed = "1";
     return;
   }
 
   item.classList.add("active-service");
   item.setAttribute("aria-expanded", "true");
   section.classList.add("has-service-selection");
+  section.dataset.mobileServiceClosed = "0";
   const inlineContent = item.querySelector(".service-inline-content");
   if (inlineContent) inlineContent.classList.add("active");
 }
